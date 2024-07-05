@@ -1,0 +1,7 @@
+*.v2
+*.vsidx
+*.lock
+obj
+bin
+.vs
+PublishProfiles
