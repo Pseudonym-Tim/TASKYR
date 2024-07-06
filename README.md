@@ -5,7 +5,7 @@ TASKYR is a simple yet powerful productivity tool designed to help you stay focu
 * Program Blocking: Prevent specified programs from running during your focus time.
 * Website Blocking: Block access to distracting websites to keep you on track.
 * Whitelist: Maintain a list of allowed programs and websites that are essential for your work.
-* Scheduled Blocking: Set up specific times when the blocking rules should be active. For example, block distractions from 12:00 PM to 8:00 PM.
+* Scheduled Blocking: Set up specific times when blocking rules should be active. For example, block distractions from 12:00 PM to 8:00 PM.
 * Day Selection: Choose which days of the week the blocking rules should apply. Whether you need focus time only on weekdays or specific days like Monday, Wednesday, and Friday, TASKYR has you covered.
 
 ## Images
@@ -39,7 +39,6 @@ The application modifies the hosts file on your system to block websites by redi
 The application monitors running processes and attempts to close any that are listed as blocked.
 
 ## Configuration
-Load Settings
 When the application starts, it will attempt to load settings from settings.json. If this file exists, it will automatically populate the application with your previous configurations.
 
 ## Save Settings
@@ -59,4 +58,4 @@ To configure your blocking schedule:
 To stop a work session:
 
 Click the "Stop Working!" button.
-If blocking is currently active, you will be prompted to confirm the action.
+If blocking is currently active, you will be prompted to confirm the action by typing a short essay.
