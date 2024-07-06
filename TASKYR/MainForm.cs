@@ -14,6 +14,7 @@ namespace TASKYR
         private Timer statusClearTimer; // Timer to clear status message
         public bool isClosing = false;
         public bool isBlockingEnabled = false;
+        public string SelectedProcess { get; private set; }
         private DateTime workStartTime;
         public bool useSchedule = false;
 
@@ -225,24 +226,32 @@ namespace TASKYR
 
         private void addProgramButton_Click(object sender, EventArgs e)
         {
-            var runningProcesses = blockingManager.GetRunningProcesses();
-
-            using(var form = new SelectProcessForm(runningProcesses))
+            using(OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                if(form.ShowDialog() == DialogResult.OK)
-                {
-                    var selectedProcess = form.SelectedProcess;
+                openFileDialog.Filter = "Executable Files|*.exe|All Files|*.*";
+                openFileDialog.Title = "Select an Executable";
 
-                    // Prevent selection of TASKYR process...
-                    if(selectedProcess.Equals("TASKYR", StringComparison.OrdinalIgnoreCase))
+                if(openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = openFileDialog.FileName;
+                    string selectedFileName = Path.GetFileNameWithoutExtension(selectedFilePath); // Extract the name without the extension
+
+                    SelectedProcess = selectedFileName; // Use the file name without the extension
+
+                    if(SelectedProcess.Equals("TASKYR", StringComparison.OrdinalIgnoreCase))
                     {
                         MessageBox.Show("Hey! You can't block TASKYR!", "Dumbass!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                     else
                     {
-                        blockingManager.AddProgramToBlock(selectedProcess);
+                        DialogResult = DialogResult.OK;
+                        blockingManager.AddProgramToBlock(selectedFileName); // Pass the file name without the extension to the blocking manager
                         UpdateBlockedProgramsList();
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Please select a process.");
                 }
             }
         }

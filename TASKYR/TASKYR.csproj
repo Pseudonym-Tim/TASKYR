@@ -94,12 +94,6 @@
     <Compile Include="ScheduleForm.Designer.cs">
       <DependentUpon>ScheduleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectProcessForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SelectProcessForm.Designer.cs">
-      <DependentUpon>SelectProcessForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="CloseConfirmationForm.resx">
       <DependentUpon>CloseConfirmationForm.cs</DependentUpon>
@@ -118,9 +112,6 @@
     </Compile>
     <EmbeddedResource Include="ScheduleForm.resx">
       <DependentUpon>ScheduleForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SelectProcessForm.resx">
-      <DependentUpon>SelectProcessForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

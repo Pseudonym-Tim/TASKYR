@@ -42,6 +42,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ScheduleForm";
             this.Text = "Configure Schedule";
+            this.Load += new System.EventHandler(this.ScheduleForm_Load);
             this.ResumeLayout(false);
 
         }

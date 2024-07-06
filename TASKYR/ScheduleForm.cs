@@ -112,5 +112,10 @@ namespace TASKYR
             startTimePicker.Enabled = checkbox.Checked;
             endTimePicker.Enabled = checkbox.Checked;
         }
+
+        private void ScheduleForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
