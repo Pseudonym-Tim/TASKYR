@@ -8,6 +8,10 @@ TASKYR is a simple yet powerful productivity tool designed to help you stay focu
 * Scheduled Blocking: Set up specific times when the blocking rules should be active. For example, block distractions from 12:00 PM to 8:00 PM.
 * Day Selection: Choose which days of the week the blocking rules should apply. Whether you need focus time only on weekdays or specific days like Monday, Wednesday, and Friday, TASKYR has you covered.
 
+## Images:
+<img src="https://pseudonym-tim.dev/img/projects/taskyr/taskyr-1.PNG" alt="Image 1" width="700"/>
+<img src="https://pseudonym-tim.dev/img/projects/taskyr/taskyr-2.PNG" alt="Image 2" width="700"/>
+
 ## Installation:
 To install TASKYR, just download a release build! If you want to build it yourself, you can follow these steps:
 
