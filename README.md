@@ -8,11 +8,11 @@ TASKYR is a simple yet powerful productivity tool designed to help you stay focu
 * Scheduled Blocking: Set up specific times when the blocking rules should be active. For example, block distractions from 12:00 PM to 8:00 PM.
 * Day Selection: Choose which days of the week the blocking rules should apply. Whether you need focus time only on weekdays or specific days like Monday, Wednesday, and Friday, TASKYR has you covered.
 
-## Images:
+## Images
 <img src="https://pseudonym-tim.dev/img/projects/taskyr/taskyr-1.PNG" alt="Image 1" width="700"/>
 <img src="https://pseudonym-tim.dev/img/projects/taskyr/taskyr-2.PNG" alt="Image 2" width="700"/>
 
-## Installation:
+## Installation
 To install TASKYR, just download a release build! If you want to build it yourself, you can follow these steps:
 
 1.) Clone the repository:
@@ -21,16 +21,15 @@ To install TASKYR, just download a release build! If you want to build it yourse
 </br> 3.) Build the project to restore dependencies and compile the application.
 </br> 4.) Run the application from your development environment or build an executable to run TASKYR independently.
 
-# Using the Application:
-## Starting a Work Session
-#### Configure Blocking:
+# Using the Application
+## Configure Blocking
 
 Add websites to block by entering the URL in the input box and clicking "Add Website".
 Add running programs to block by clicking "Add Program" and selecting from the list of running processes.
-## Configure Schedule:
+## Configure Schedule
 
 Set up your blocking schedule by clicking "Configure Schedule" and selecting the days and times you want blocking to be active.
-## Start Blocking:
+## Start Blocking
 
 Click the "Start Working!" button to begin a work session. The application will block the specified websites and programs according to your settings and schedule.
 ## Blocking Websites
