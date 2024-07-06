@@ -82,6 +82,15 @@ namespace TASKYR
 
         private void FrameTimer_Tick(object sender, EventArgs e)
         {
+            if(useSchedule && blockingManager.IsBlockingTime())
+            {
+                StartBlock();
+            }
+            else if(useSchedule && !blockingManager.IsBlockingTime())
+            {
+                StopBlock(true);
+            }
+
             if(isBlockingEnabled)
             {
                 if(!useSchedule || blockingManager.IsBlockingTime())
@@ -176,12 +185,29 @@ namespace TASKYR
         {
             if(isBlockingEnabled)
             {
-                using(var form = new CloseConfirmationForm())
+                StopBlock();
+            }
+            else
+            {
+                StartBlock();
+            }
+
+            UpdateUIState();
+        }
+
+        private void StopBlock(bool overridePrompt = false)
+        {
+            if(isBlockingEnabled)
+            {
+                if(!overridePrompt)
                 {
-                    form.ShowDialog();
-                    if(!form.IsConfirmed)
+                    using(var form = new CloseConfirmationForm())
                     {
-                        return;
+                        form.ShowDialog();
+                        if(!form.IsConfirmed)
+                        {
+                            return;
+                        }
                     }
                 }
 
@@ -193,7 +219,11 @@ namespace TASKYR
                 blockingManager.UnblockPrograms();
                 blockingManager.UnblockWebsites();
             }
-            else
+        }
+
+        private void StartBlock()
+        {
+            if(!isBlockingEnabled)
             {
                 isBlockingEnabled = true;
                 blockButton.Text = "Stop Working!";
@@ -214,8 +244,6 @@ namespace TASKYR
                 workStartTime = DateTime.Now;
                 SetupTimer();
             }
-
-            UpdateUIState();
         }
 
         private void browserComboBox_SelectedIndexChanged(object sender, EventArgs e)
