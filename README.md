@@ -25,7 +25,7 @@ To install TASKYR, just download a release build! If you want to build it yourse
 ## Configure Blocking
 
 Add websites to block by entering the URL in the input box and clicking "Add Website".
-Add running programs to block by clicking "Add Program" and selecting from the list of running processes.
+</br>Add running programs to block by clicking "Add Program" and select an executable file manually using the file picker.
 ## Configure Schedule
 
 Set up your blocking schedule by clicking "Configure Schedule" and selecting the days and times you want blocking to be active.
