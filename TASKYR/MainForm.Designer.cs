@@ -247,6 +247,7 @@ namespace TASKYR
             // 
             // saveSettingsButton
             // 
+            this.saveSettingsButton.Hide(); // No longer needed, we autosave user settings now...
             this.saveSettingsButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveSettingsButton.Location = new System.Drawing.Point(30, 285);
             this.saveSettingsButton.Name = "saveSettingsButton";
