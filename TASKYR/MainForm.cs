@@ -21,6 +21,11 @@ namespace TASKYR
         public bool useSchedule = false;
         public bool addToStartup = false; 
         private bool minimizeToTray = false;
+        private Timer idleTimer;
+        private DateTime lastActivityTime;
+        private const int idleThresholdSeconds = 8;
+        private TimeSpan totalIdleTime = TimeSpan.Zero;
+        private DateTime lastIdleStartTime;
 
         public MainForm()
         {
@@ -28,7 +33,43 @@ namespace TASKYR
             InitializeComponent();
             LoadSettings();
             InitializeBrowserComboBox();
-            InitializeStatusClearTimer(); // Initialize the status clear timer
+            InitializeStatusClearTimer();
+            InitializeIdleTimer();
+        }
+
+        private void InitializeIdleTimer()
+        {
+            idleTimer = new Timer();
+            idleTimer.Interval = 1000; // Check every second
+            idleTimer.Tick += IdleTimer_Tick;
+            idleTimer.Start();
+
+            lastActivityTime = DateTime.Now;
+
+            // Capture all user input events
+            Application.AddMessageFilter(new UserActivityMessageFilter(() => lastActivityTime = DateTime.Now));
+        }
+
+        private void IdleTimer_Tick(object sender, EventArgs e)
+        {
+            if((DateTime.Now - lastActivityTime).TotalSeconds >= idleThresholdSeconds && isBlockingEnabled)
+            {
+                if(lastIdleStartTime == DateTime.MinValue) // Mark the start of the idle period
+                {
+                    lastIdleStartTime = DateTime.Now;
+                }
+
+                TimeSpan idleDuration = DateTime.Now - lastActivityTime;
+                statusText.Text = $"You have been idle for {Math.Floor(idleDuration.TotalSeconds)} seconds.";
+            }
+            else if((DateTime.Now - lastActivityTime).TotalSeconds < idleThresholdSeconds && isBlockingEnabled)
+            {
+                if(lastIdleStartTime != DateTime.MinValue) // If was idle, now active
+                {
+                    totalIdleTime += DateTime.Now - lastIdleStartTime; // Accumulate idle time
+                    lastIdleStartTime = DateTime.MinValue; // Reset idle start time
+                }
+            }
         }
 
         private void LoadSettings()
@@ -99,50 +140,53 @@ namespace TASKYR
 
         private void FrameTimer_Tick(object sender, EventArgs e)
         {
-            if(useSchedule && blockingManager.IsBlockingTime())
+            if((DateTime.Now - lastActivityTime).TotalSeconds < idleThresholdSeconds)
             {
-                StartBlock();
-            }
-            else if(useSchedule && !blockingManager.IsBlockingTime())
-            {
-                StopBlock(true);
-            }
-
-            if(isBlockingEnabled)
-            {
-                if(!useSchedule || blockingManager.IsBlockingTime())
+                if(useSchedule && blockingManager.IsBlockingTime())
                 {
-                    blockingManager.BlockPrograms();
-                    blockingManager.BlockWebsites();
+                    StartBlock();
                 }
-                else
+                else if(useSchedule && !blockingManager.IsBlockingTime())
                 {
-                    blockingManager.UnblockPrograms();
-                    blockingManager.UnblockWebsites();
+                    StopBlock(true);
                 }
 
-                // Update status text with elapsed time...
-                TimeSpan elapsedTime = DateTime.Now - workStartTime;
-                statusText.Text = $"You've been working for {elapsedTime.Hours} hours, {elapsedTime.Minutes} minutes, and {elapsedTime.Seconds} seconds";
-            }
-            else
-            {
-                if(!statusClearTimer.Enabled)
+                if(isBlockingEnabled)
                 {
-                    // Show last session duration if the user is not currently working
-                    TimeSpan lastSessionDuration = blockingManager.LastWorkSessionDuration;
-                    if(lastSessionDuration.TotalSeconds > 0)
+                    if(!useSchedule || blockingManager.IsBlockingTime())
                     {
-                        statusText.Text = $"You worked for {lastSessionDuration.Hours} hours, {lastSessionDuration.Minutes} minutes, and {lastSessionDuration.Seconds} seconds last time.";
+                        blockingManager.BlockPrograms();
+                        blockingManager.BlockWebsites();
                     }
                     else
                     {
-                        statusText.Text = "You are not currently working!";
+                        blockingManager.UnblockPrograms();
+                        blockingManager.UnblockWebsites();
+                    }
+
+                    // Calculate total work time minus idle time
+                    TimeSpan elapsedTime = DateTime.Now - workStartTime - totalIdleTime;
+                    statusText.Text = $"You've been working for {elapsedTime.Hours} hours, {elapsedTime.Minutes} minutes, and {elapsedTime.Seconds} seconds";
+                }
+                else
+                {
+                    if(!statusClearTimer.Enabled)
+                    {
+                        // Show last session duration if the user is not currently working
+                        TimeSpan lastSessionDuration = blockingManager.LastWorkSessionDuration;
+                        if(lastSessionDuration.TotalSeconds > 0)
+                        {
+                            statusText.Text = $"You worked for {lastSessionDuration.Hours} hours, {lastSessionDuration.Minutes} minutes, and {lastSessionDuration.Seconds} seconds last time.";
+                        }
+                        else
+                        {
+                            statusText.Text = "You are not currently working!";
+                        }
                     }
                 }
-            }
 
-            UpdateUIState();
+                UpdateUIState();
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)

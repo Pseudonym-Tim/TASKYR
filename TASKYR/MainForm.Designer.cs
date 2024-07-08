@@ -225,7 +225,7 @@ namespace TASKYR
             // configureScheduleButton
             // 
             this.configureScheduleButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.configureScheduleButton.Location = new System.Drawing.Point(30, 220);
+            this.configureScheduleButton.Location = new System.Drawing.Point(30, 232);
             this.configureScheduleButton.Name = "configureScheduleButton";
             this.configureScheduleButton.Size = new System.Drawing.Size(141, 48);
             this.configureScheduleButton.TabIndex = 15;
@@ -247,7 +247,6 @@ namespace TASKYR
             // 
             // saveSettingsButton
             // 
-            this.saveSettingsButton.Hide(); // No longer needed, we autosave user settings now...
             this.saveSettingsButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveSettingsButton.Location = new System.Drawing.Point(30, 285);
             this.saveSettingsButton.Name = "saveSettingsButton";
