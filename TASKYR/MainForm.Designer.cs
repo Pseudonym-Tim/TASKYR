@@ -1,4 +1,7 @@
-﻿namespace TASKYR
+﻿using System.Drawing;
+using TASKYR.Properties;
+
+namespace TASKYR
 {
     partial class MainForm
     {
@@ -28,6 +31,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.blockButton = new System.Windows.Forms.Button();
             this.browserComboBox = new System.Windows.Forms.ComboBox();
             this.defaultBrowserLabel = new System.Windows.Forms.Label();
@@ -45,7 +53,31 @@
             this.configureScheduleButton = new System.Windows.Forms.Button();
             this.useScheduleCheckBox = new System.Windows.Forms.CheckBox();
             this.saveSettingsButton = new System.Windows.Forms.Button();
+            this.addToStartupCheckBox = new System.Windows.Forms.CheckBox();
+            this.minimizeToTrayCheckBox = new System.Windows.Forms.CheckBox();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // notifyIcon
+            // 
+            this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "Click to show TASKYR!";
+            this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(94, 26);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // blockButton
             // 
@@ -133,9 +165,9 @@
             // 
             this.statusText.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.statusText.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusText.Location = new System.Drawing.Point(102, 355);
+            this.statusText.Location = new System.Drawing.Point(12, 355);
             this.statusText.Name = "statusText";
-            this.statusText.Size = new System.Drawing.Size(596, 19);
+            this.statusText.Size = new System.Drawing.Size(776, 19);
             this.statusText.TabIndex = 9;
             this.statusText.Text = "You\'ve been working for 10 minutes and 60 seconds";
             this.statusText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -193,7 +225,7 @@
             // configureScheduleButton
             // 
             this.configureScheduleButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.configureScheduleButton.Location = new System.Drawing.Point(30, 258);
+            this.configureScheduleButton.Location = new System.Drawing.Point(30, 220);
             this.configureScheduleButton.Name = "configureScheduleButton";
             this.configureScheduleButton.Size = new System.Drawing.Size(141, 48);
             this.configureScheduleButton.TabIndex = 15;
@@ -215,8 +247,9 @@
             // 
             // saveSettingsButton
             // 
+            this.saveSettingsButton.Hide(); // No longer needed, we autosave user settings now...
             this.saveSettingsButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveSettingsButton.Location = new System.Drawing.Point(30, 178);
+            this.saveSettingsButton.Location = new System.Drawing.Point(30, 285);
             this.saveSettingsButton.Name = "saveSettingsButton";
             this.saveSettingsButton.Size = new System.Drawing.Size(143, 42);
             this.saveSettingsButton.TabIndex = 17;
@@ -224,11 +257,37 @@
             this.saveSettingsButton.UseVisualStyleBackColor = true;
             this.saveSettingsButton.Click += new System.EventHandler(this.saveSettingsButton_Click);
             // 
+            // addToStartupCheckBox
+            // 
+            this.addToStartupCheckBox.AutoSize = true;
+            this.addToStartupCheckBox.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addToStartupCheckBox.Location = new System.Drawing.Point(30, 177);
+            this.addToStartupCheckBox.Name = "addToStartupCheckBox";
+            this.addToStartupCheckBox.Size = new System.Drawing.Size(107, 19);
+            this.addToStartupCheckBox.TabIndex = 19;
+            this.addToStartupCheckBox.Text = "Add to Startup";
+            this.addToStartupCheckBox.UseVisualStyleBackColor = true;
+            this.addToStartupCheckBox.CheckedChanged += new System.EventHandler(this.addToStartupCheckBox_CheckedChanged);
+            // 
+            // minimizeToTrayCheckBox
+            // 
+            this.minimizeToTrayCheckBox.AutoSize = true;
+            this.minimizeToTrayCheckBox.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.minimizeToTrayCheckBox.Location = new System.Drawing.Point(30, 152);
+            this.minimizeToTrayCheckBox.Name = "minimizeToTrayCheckBox";
+            this.minimizeToTrayCheckBox.Size = new System.Drawing.Size(117, 19);
+            this.minimizeToTrayCheckBox.TabIndex = 20;
+            this.minimizeToTrayCheckBox.Text = "Minimize to Tray";
+            this.minimizeToTrayCheckBox.UseVisualStyleBackColor = true;
+            this.minimizeToTrayCheckBox.CheckedChanged += new System.EventHandler(this.minimizeToTrayCheckBox_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.minimizeToTrayCheckBox);
+            this.Controls.Add(this.addToStartupCheckBox);
             this.Controls.Add(this.saveSettingsButton);
             this.Controls.Add(this.useScheduleCheckBox);
             this.Controls.Add(this.configureScheduleButton);
@@ -250,6 +309,7 @@
             this.Name = "MainForm";
             this.Text = "TASKYR";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -257,6 +317,10 @@
 
         #endregion
 
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.CheckBox addToStartupCheckBox;
         private System.Windows.Forms.Button blockButton;
         private System.Windows.Forms.ComboBox browserComboBox;
         private System.Windows.Forms.Label defaultBrowserLabel;
@@ -274,6 +338,7 @@
         private System.Windows.Forms.Button configureScheduleButton;
         private System.Windows.Forms.CheckBox useScheduleCheckBox;
         private System.Windows.Forms.Button saveSettingsButton;
+        private System.Windows.Forms.CheckBox minimizeToTrayCheckBox;
     }
 }
 

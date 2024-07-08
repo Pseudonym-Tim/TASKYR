@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 namespace TASKYR
@@ -17,6 +19,8 @@ namespace TASKYR
         public string SelectedProcess { get; private set; }
         private DateTime workStartTime;
         public bool useSchedule = false;
+        public bool addToStartup = false; 
+        private bool minimizeToTray = false;
 
         public MainForm()
         {
@@ -36,14 +40,28 @@ namespace TASKYR
                 blockingManager.Schedule = settings.Schedule;
                 blockingManager.DefaultBrowser = settings.DefaultBrowser;
                 useSchedule = settings.UseSchedule;
+                addToStartup = settings.AddToStartup;
+                minimizeToTray = settings.MinimizeToTray; // Load the setting
                 blockingManager.BlockedPrograms = settings.BlockedPrograms;
                 blockingManager.BlockedWebsites = settings.BlockedWebsites;
+                blockingManager.LastWorkSessionDuration = settings.LastWorkSessionDuration;
 
                 // Update UI elements based on loaded settings
                 useScheduleCheckBox.Checked = useSchedule;
+                addToStartupCheckBox.Checked = addToStartup;
+                minimizeToTrayCheckBox.Checked = minimizeToTray; // Update the checkbox
                 browserComboBox.SelectedItem = blockingManager.DefaultBrowser;
                 UpdateBlockedProgramsList();
                 UpdateBlockedWebsitesList();
+
+                if(addToStartup)
+                {
+                    AddToStartup();
+                }
+                else
+                {
+                    RemoveFromStartup();
+                }
             }
         }
 
@@ -54,15 +72,14 @@ namespace TASKYR
                 Schedule = blockingManager.Schedule,
                 DefaultBrowser = blockingManager.DefaultBrowser,
                 UseSchedule = useSchedule,
+                AddToStartup = addToStartup,
+                MinimizeToTray = minimizeToTray,
                 BlockedPrograms = blockingManager.BlockedPrograms,
-                BlockedWebsites = blockingManager.BlockedWebsites
+                BlockedWebsites = blockingManager.BlockedWebsites,
+                LastWorkSessionDuration = blockingManager.LastWorkSessionDuration
             };
 
-            Debug.WriteLine("Saving settings...");
-            Debug.WriteLine($"Blocked Programs Count: {settings.BlockedPrograms.Count}");
-            Debug.WriteLine($"Blocked Programs: {string.Join(", ", settings.BlockedPrograms)}");
-
-            var json = JsonConvert.SerializeObject(settings, Newtonsoft.Json.Formatting.Indented);
+            var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText(SettingsFilePath, json);
         }
 
@@ -112,18 +129,41 @@ namespace TASKYR
             {
                 if(!statusClearTimer.Enabled)
                 {
-                    statusText.Text = "You are not currently working!";
+                    // Show last session duration if the user is not currently working
+                    TimeSpan lastSessionDuration = blockingManager.LastWorkSessionDuration;
+                    if(lastSessionDuration.TotalSeconds > 0)
+                    {
+                        statusText.Text = $"You worked for {lastSessionDuration.Hours} hours, {lastSessionDuration.Minutes} minutes, and {lastSessionDuration.Seconds} seconds last time.";
+                    }
+                    else
+                    {
+                        statusText.Text = "You are not currently working!";
+                    }
                 }
             }
+
+            UpdateUIState();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             SetupTimer();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            // Unsure if desirable behaviour, commented out for now...
+            /*if(!isClosing && this.WindowState != FormWindowState.Minimized)
+            {
+                e.Cancel = true;
+                this.WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                base.OnFormClosing(e);
+            }*/
+
             if(isBlockingEnabled)
             {
                 using(var form = new CloseConfirmationForm())
@@ -137,10 +177,33 @@ namespace TASKYR
                 }
             }
 
+            // Call SaveSettings before the form actually closes...
+            SaveSettings();
+
             base.OnFormClosing(e);
             isClosing = true;
             blockingManager.UnblockWebsites();
             blockingManager.BlockedWebsites.Clear();
+        }
+
+        private void AddToStartup()
+        {
+            string runKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+            RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(runKey, true);
+            if(startupKey.GetValue("TASKYR") == null)
+            {
+                startupKey.SetValue("TASKYR", Assembly.GetExecutingAssembly().Location);
+            }
+        }
+
+        private void RemoveFromStartup()
+        {
+            string runKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+            RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(runKey, true);
+            if(startupKey.GetValue("TASKYR") != null)
+            {
+                startupKey.DeleteValue("TASKYR");
+            }
         }
 
         private void InitializeBrowserComboBox()
@@ -195,32 +258,6 @@ namespace TASKYR
             UpdateUIState();
         }
 
-        private void StopBlock(bool overridePrompt = false)
-        {
-            if(isBlockingEnabled)
-            {
-                if(!overridePrompt)
-                {
-                    using(var form = new CloseConfirmationForm())
-                    {
-                        form.ShowDialog();
-                        if(!form.IsConfirmed)
-                        {
-                            return;
-                        }
-                    }
-                }
-
-                isBlockingEnabled = false;
-                blockButton.Text = "Start Working!";
-
-                Debug.WriteLine("Stopping work. Saving settings...");
-                SaveSettings(); // Ensure settings are saved when stopping work
-                blockingManager.UnblockPrograms();
-                blockingManager.UnblockWebsites();
-            }
-        }
-
         private void StartBlock()
         {
             if(!isBlockingEnabled)
@@ -243,6 +280,36 @@ namespace TASKYR
                 blockingManager.StartBlocking();
                 workStartTime = DateTime.Now;
                 SetupTimer();
+            }
+        }
+
+        private void StopBlock(bool overridePrompt = false)
+        {
+            if(isBlockingEnabled)
+            {
+                if(!overridePrompt)
+                {
+                    using(var form = new CloseConfirmationForm())
+                    {
+                        form.ShowDialog();
+                        if(!form.IsConfirmed)
+                        {
+                            return;
+                        }
+                    }
+                }
+
+                isBlockingEnabled = false;
+                blockButton.Text = "Start Working!";
+
+                // Save the last work session duration
+                TimeSpan lastSessionDuration = DateTime.Now - workStartTime;
+                blockingManager.LastWorkSessionDuration = lastSessionDuration;
+
+                Debug.WriteLine("Stopping work. Saving settings...");
+                SaveSettings(); // Ensure settings are saved when stopping work
+                blockingManager.UnblockPrograms();
+                blockingManager.UnblockWebsites();
             }
         }
 
@@ -364,8 +431,50 @@ namespace TASKYR
         private void saveSettingsButton_Click(object sender, EventArgs e)
         {
             SaveSettings();
-            statusText.Text = "Save settings successfully!";
+            statusText.Text = "Settings saved successfully!";
             statusClearTimer.Start(); // Start the timer to clear the status message
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if(minimizeToTray && this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                notifyIcon.Visible = true;
+                notifyIcon.ShowBalloonTip(1000, "TASKYR", "Minimized to tray.", ToolTipIcon.Info);
+            }
+        }
+
+        private void notifyIcon_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            notifyIcon.Visible = false;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isClosing = true;
+            this.Close();
+        }
+
+        private void addToStartupCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            addToStartup = addToStartupCheckBox.Checked;
+            if(addToStartup)
+            {
+                AddToStartup();
+            }
+            else
+            {
+                RemoveFromStartup();
+            }
+        }
+
+        private void minimizeToTrayCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            minimizeToTray = minimizeToTrayCheckBox.Checked;
+            SaveSettings();
         }
     }
 }

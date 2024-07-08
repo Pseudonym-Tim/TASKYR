@@ -11,6 +11,7 @@ namespace TASKYR
         private MainForm mainForm;
         public List<string> BlockedPrograms { get; set; } = new List<string>();
         public List<string> BlockedWebsites { get; set; } = new List<string>();
+        public TimeSpan LastWorkSessionDuration { get; set; }
         public Dictionary<DayOfWeek, (TimeSpan, TimeSpan)?> Schedule { get; set; }
         public string DefaultBrowser { get; set; } = "Chrome";
 
