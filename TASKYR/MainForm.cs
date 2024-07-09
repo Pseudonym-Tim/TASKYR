@@ -35,6 +35,8 @@ namespace TASKYR
             InitializeBrowserComboBox();
             InitializeStatusClearTimer();
             InitializeIdleTimer();
+
+            ProcessProtector.UnprotectProcess();
         }
 
         private void InitializeIdleTimer()
@@ -221,6 +223,10 @@ namespace TASKYR
                 }
             }
 
+#if !DEBUG
+            ProcessProtector.UnprotectProcess();
+#endif
+
             // Call SaveSettings before the form actually closes...
             SaveSettings();
 
@@ -309,6 +315,10 @@ namespace TASKYR
                 isBlockingEnabled = true;
                 blockButton.Text = "Stop Working!";
 
+#if !DEBUG
+            ProcessProtector.ProtectProcess();
+#endif
+
                 foreach(var item in blockedWebsitesListBox.Items)
                 {
                     string website = item.ToString();
@@ -345,6 +355,10 @@ namespace TASKYR
 
                 isBlockingEnabled = false;
                 blockButton.Text = "Start Working!";
+
+#if !DEBUG
+                ProcessProtector.UnprotectProcess();
+#endif
 
                 // Save the last work session duration
                 TimeSpan lastSessionDuration = DateTime.Now - workStartTime;
