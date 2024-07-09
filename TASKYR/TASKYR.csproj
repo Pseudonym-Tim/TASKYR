@@ -97,7 +97,6 @@
       <DependentUpon>ScheduleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="UserActivityMessageFilter.cs" />
     <EmbeddedResource Include="CloseConfirmationForm.resx">
       <DependentUpon>CloseConfirmationForm.cs</DependentUpon>
     </EmbeddedResource>
