@@ -37,6 +37,9 @@ namespace TASKYR
             InitializeIdleTimer();
 
             ProcessProtector.UnprotectProcess();
+
+            InputActivityMonitor.UserActivityDetected += OnUserActivityDetected;
+            InputActivityMonitor.Start();
         }
 
         private void InitializeIdleTimer()
@@ -47,9 +50,11 @@ namespace TASKYR
             idleTimer.Start();
 
             lastActivityTime = DateTime.Now;
+        }
 
-            // Capture all user input events
-            Application.AddMessageFilter(new UserActivityMessageFilter(() => lastActivityTime = DateTime.Now));
+        private void OnUserActivityDetected(object sender, EventArgs e)
+        {
+            lastActivityTime = DateTime.Now;
         }
 
         private void IdleTimer_Tick(object sender, EventArgs e)
@@ -230,6 +235,7 @@ namespace TASKYR
             // Call SaveSettings before the form actually closes...
             SaveSettings();
 
+            InputActivityMonitor.Stop();
             base.OnFormClosing(e);
             isClosing = true;
             blockingManager.UnblockWebsites();
