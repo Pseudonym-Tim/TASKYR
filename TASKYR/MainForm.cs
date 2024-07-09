@@ -40,7 +40,7 @@ namespace TASKYR
         private void InitializeIdleTimer()
         {
             idleTimer = new Timer();
-            idleTimer.Interval = 1000; // Check every second
+            idleTimer.Interval = 16;
             idleTimer.Tick += IdleTimer_Tick;
             idleTimer.Start();
 
