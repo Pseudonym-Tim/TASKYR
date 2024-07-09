@@ -36,11 +36,13 @@ namespace TASKYR
         // Disable copy-paste via keyboard shortcuts...
         private void confirmationTextBox_KeyDown(object sender, KeyEventArgs e)
         {
+#if !DEBUG
             if(e.Control && (e.KeyCode == Keys.C || e.KeyCode == Keys.V || e.KeyCode == Keys.X))
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+#endif
         }
     }
 }
