@@ -26,6 +26,7 @@ namespace TASKYR
         private const int idleThresholdSeconds = 8;
         private TimeSpan totalIdleTime = TimeSpan.Zero;
         private DateTime lastIdleStartTime;
+        private const int WM_CLOSE = 0x0010;
 
         public MainForm()
         {
@@ -67,7 +68,7 @@ namespace TASKYR
                 }
 
                 TimeSpan idleDuration = DateTime.Now - lastActivityTime;
-                statusText.Text = $"You have been idle for {Math.Floor(idleDuration.TotalSeconds)} seconds.";
+                statusText.Text = $"You have been idle for {Math.Floor(idleDuration.TotalSeconds)} seconds";
             }
             else if((DateTime.Now - lastActivityTime).TotalSeconds < idleThresholdSeconds && isBlockingEnabled)
             {
@@ -183,7 +184,7 @@ namespace TASKYR
                         TimeSpan lastSessionDuration = blockingManager.LastWorkSessionDuration;
                         if(lastSessionDuration.TotalSeconds > 0)
                         {
-                            statusText.Text = $"You worked for {lastSessionDuration.Hours} hours, {lastSessionDuration.Minutes} minutes, and {lastSessionDuration.Seconds} seconds last time.";
+                            statusText.Text = $"You worked for {lastSessionDuration.Hours} hours, {lastSessionDuration.Minutes} minutes, and {lastSessionDuration.Seconds} seconds last session!";
                         }
                         else
                         {
@@ -383,6 +384,20 @@ namespace TASKYR
             blockingManager.SetDefaultBrowser(selectedBrowser);
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            if(m.Msg == WM_CLOSE)
+            {
+                var result = MessageBox.Show("Are you sure you want to close the application?", "Confirm Close", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if(result == DialogResult.No)
+                {
+                    // If the user clicks 'No', cancel the close operation
+                    return;
+                }
+            }
+            base.WndProc(ref m);
+        }
+
         private void addProgramButton_Click(object sender, EventArgs e)
         {
             using(OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -399,7 +414,7 @@ namespace TASKYR
 
                     if(SelectedProcess.Equals("TASKYR", StringComparison.OrdinalIgnoreCase))
                     {
-                        MessageBox.Show("Hey! You can't block TASKYR!", "Dumbass!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Hey! You can't block TASKYR!", "You dirty cheater!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                     else
                     {
