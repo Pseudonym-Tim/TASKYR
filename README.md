@@ -42,7 +42,7 @@ The application monitors running processes and attempts to close any that are li
 When the application starts, it will attempt to load settings from settings.json. If this file exists, it will automatically populate the application with your previous configurations.
 
 ## Save Settings:
-You can save your current settings at any time by clicking the "Save Settings" button. This will write your configurations to settings.json for future sessions.
+Your settings and options will be saved automatically upon exiting the program. This will write your configurations to settings.json for future sessions.
 
 ## Scheduling:
 To configure your blocking schedule:
@@ -52,7 +52,7 @@ To configure your blocking schedule:
 </br> 3.) Set the start and end times for each selected day.
 </br> 4.) Save your schedule.
 </br> 5.) Saving and Loading Settings
-</br> 6.) Settings are automatically loaded from settings.json when the application starts. You can manually save your settings at any time by clicking the "Save Settings" button.
+</br> 6.) Settings are automatically loaded from settings.json when the application starts.
 
 ## Stopping Work Sessions:
 To stop a work session:
