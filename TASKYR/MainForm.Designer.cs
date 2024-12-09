@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 using TASKYR.Properties;
 
 namespace TASKYR
@@ -55,6 +56,7 @@ namespace TASKYR
             this.saveSettingsButton = new System.Windows.Forms.Button();
             this.addToStartupCheckBox = new System.Windows.Forms.CheckBox();
             this.minimizeToTrayCheckBox = new System.Windows.Forms.CheckBox();
+            this.coffeeBreakButton = new System.Windows.Forms.Button();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,22 +83,32 @@ namespace TASKYR
             // 
             // blockButton
             // 
+            this.blockButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.blockButton.FlatAppearance.BorderSize = 0;
+            this.blockButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.blockButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.blockButton.ForeColor = System.Drawing.Color.White;
             this.blockButton.Location = new System.Drawing.Point(279, 388);
             this.blockButton.Name = "blockButton";
             this.blockButton.Size = new System.Drawing.Size(243, 50);
             this.blockButton.TabIndex = 0;
             this.blockButton.Text = "Start Working!";
-            this.blockButton.UseVisualStyleBackColor = true;
+            this.blockButton.UseVisualStyleBackColor = false;
             this.blockButton.Click += new System.EventHandler(this.blockButton_Click);
             // 
             // browserComboBox
             // 
+            this.browserComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.browserComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.browserComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.browserComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.browserComboBox.ForeColor = System.Drawing.Color.White;
             this.browserComboBox.FormattingEnabled = true;
             this.browserComboBox.Location = new System.Drawing.Point(30, 100);
             this.browserComboBox.Name = "browserComboBox";
             this.browserComboBox.Size = new System.Drawing.Size(162, 21);
             this.browserComboBox.TabIndex = 1;
+            this.browserComboBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.browserComboBox_DrawItem);
             this.browserComboBox.SelectedIndexChanged += new System.EventHandler(this.browserComboBox_SelectedIndexChanged);
             // 
             // defaultBrowserLabel
@@ -112,59 +124,71 @@ namespace TASKYR
             // 
             // addProgramButton
             // 
+            this.addProgramButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.addProgramButton.FlatAppearance.BorderSize = 0;
+            this.addProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addProgramButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addProgramButton.ForeColor = System.Drawing.Color.White;
             this.addProgramButton.Location = new System.Drawing.Point(269, 232);
             this.addProgramButton.Name = "addProgramButton";
             this.addProgramButton.Size = new System.Drawing.Size(156, 36);
             this.addProgramButton.TabIndex = 3;
-            this.addProgramButton.Text = "Add program...";
-            this.addProgramButton.UseVisualStyleBackColor = true;
+            this.addProgramButton.Text = "Add Program...";
+            this.addProgramButton.UseVisualStyleBackColor = false;
             this.addProgramButton.Click += new System.EventHandler(this.addProgramButton_Click);
             // 
             // blockedProgramsLabel
             // 
             this.blockedProgramsLabel.AutoSize = true;
-            this.blockedProgramsLabel.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.blockedProgramsLabel.Location = new System.Drawing.Point(247, 18);
+            this.blockedProgramsLabel.Font = new System.Drawing.Font("Arial", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.blockedProgramsLabel.Location = new System.Drawing.Point(265, 28);
             this.blockedProgramsLabel.Name = "blockedProgramsLabel";
-            this.blockedProgramsLabel.Size = new System.Drawing.Size(150, 19);
+            this.blockedProgramsLabel.Size = new System.Drawing.Size(151, 19);
             this.blockedProgramsLabel.TabIndex = 4;
-            this.blockedProgramsLabel.Text = "Blocked programs";
+            this.blockedProgramsLabel.Text = "Blocked Programs";
             // 
             // blockedWebsitesLabel
             // 
             this.blockedWebsitesLabel.AutoSize = true;
-            this.blockedWebsitesLabel.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.blockedWebsitesLabel.Location = new System.Drawing.Point(572, 18);
+            this.blockedWebsitesLabel.Font = new System.Drawing.Font("Arial", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.blockedWebsitesLabel.Location = new System.Drawing.Point(600, 28);
             this.blockedWebsitesLabel.Name = "blockedWebsitesLabel";
-            this.blockedWebsitesLabel.Size = new System.Drawing.Size(144, 19);
+            this.blockedWebsitesLabel.Size = new System.Drawing.Size(146, 19);
             this.blockedWebsitesLabel.TabIndex = 6;
-            this.blockedWebsitesLabel.Text = "Blocked websites";
+            this.blockedWebsitesLabel.Text = "Blocked Websites";
             // 
             // blockedProgramsListBox
             // 
+            this.blockedProgramsListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.blockedProgramsListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.blockedProgramsListBox.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.blockedProgramsListBox.ForeColor = System.Drawing.Color.White;
             this.blockedProgramsListBox.FormattingEnabled = true;
             this.blockedProgramsListBox.ItemHeight = 16;
-            this.blockedProgramsListBox.Location = new System.Drawing.Point(251, 40);
+            this.blockedProgramsListBox.Location = new System.Drawing.Point(251, 53);
             this.blockedProgramsListBox.Name = "blockedProgramsListBox";
-            this.blockedProgramsListBox.Size = new System.Drawing.Size(187, 180);
+            this.blockedProgramsListBox.Size = new System.Drawing.Size(187, 160);
             this.blockedProgramsListBox.TabIndex = 7;
             // 
             // blockedWebsitesListBox
             // 
+            this.blockedWebsitesListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.blockedWebsitesListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.blockedWebsitesListBox.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.blockedWebsitesListBox.ForeColor = System.Drawing.Color.White;
             this.blockedWebsitesListBox.FormattingEnabled = true;
             this.blockedWebsitesListBox.ItemHeight = 16;
-            this.blockedWebsitesListBox.Location = new System.Drawing.Point(576, 40);
+            this.blockedWebsitesListBox.Location = new System.Drawing.Point(576, 53);
             this.blockedWebsitesListBox.Name = "blockedWebsitesListBox";
-            this.blockedWebsitesListBox.Size = new System.Drawing.Size(187, 180);
+            this.blockedWebsitesListBox.Size = new System.Drawing.Size(187, 160);
             this.blockedWebsitesListBox.TabIndex = 8;
             // 
             // statusText
             // 
             this.statusText.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.statusText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.statusText.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusText.ForeColor = System.Drawing.Color.White;
             this.statusText.Location = new System.Drawing.Point(12, 355);
             this.statusText.Name = "statusText";
             this.statusText.Size = new System.Drawing.Size(776, 19);
@@ -174,27 +198,35 @@ namespace TASKYR
             // 
             // addWebsiteButton
             // 
+            this.addWebsiteButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.addWebsiteButton.FlatAppearance.BorderSize = 0;
+            this.addWebsiteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addWebsiteButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addWebsiteButton.ForeColor = System.Drawing.Color.White;
             this.addWebsiteButton.Location = new System.Drawing.Point(590, 258);
             this.addWebsiteButton.Name = "addWebsiteButton";
             this.addWebsiteButton.Size = new System.Drawing.Size(156, 36);
             this.addWebsiteButton.TabIndex = 10;
-            this.addWebsiteButton.Text = "Add website!";
-            this.addWebsiteButton.UseVisualStyleBackColor = true;
+            this.addWebsiteButton.Text = "Add Website!";
+            this.addWebsiteButton.UseVisualStyleBackColor = false;
             this.addWebsiteButton.Click += new System.EventHandler(this.addWebsiteButton_Click);
             // 
             // addWebsiteTextBox
             // 
-            this.addWebsiteTextBox.Location = new System.Drawing.Point(590, 232);
+            this.addWebsiteTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.addWebsiteTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.addWebsiteTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addWebsiteTextBox.ForeColor = System.Drawing.Color.White;
+            this.addWebsiteTextBox.Location = new System.Drawing.Point(590, 225);
             this.addWebsiteTextBox.Name = "addWebsiteTextBox";
-            this.addWebsiteTextBox.Size = new System.Drawing.Size(156, 20);
+            this.addWebsiteTextBox.Size = new System.Drawing.Size(156, 19);
             this.addWebsiteTextBox.TabIndex = 11;
             // 
             // optionsLabel
             // 
             this.optionsLabel.AutoSize = true;
             this.optionsLabel.Font = new System.Drawing.Font("Arial", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.optionsLabel.Location = new System.Drawing.Point(72, 40);
+            this.optionsLabel.Location = new System.Drawing.Point(78, 53);
             this.optionsLabel.Name = "optionsLabel";
             this.optionsLabel.Size = new System.Drawing.Size(69, 19);
             this.optionsLabel.TabIndex = 12;
@@ -202,35 +234,47 @@ namespace TASKYR
             // 
             // removeProgramButton
             // 
+            this.removeProgramButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.removeProgramButton.FlatAppearance.BorderSize = 0;
+            this.removeProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeProgramButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.removeProgramButton.ForeColor = System.Drawing.Color.White;
             this.removeProgramButton.Location = new System.Drawing.Point(269, 274);
             this.removeProgramButton.Name = "removeProgramButton";
             this.removeProgramButton.Size = new System.Drawing.Size(156, 36);
             this.removeProgramButton.TabIndex = 13;
-            this.removeProgramButton.Text = "Remove program";
-            this.removeProgramButton.UseVisualStyleBackColor = true;
+            this.removeProgramButton.Text = "Remove Program";
+            this.removeProgramButton.UseVisualStyleBackColor = false;
             this.removeProgramButton.Click += new System.EventHandler(this.removeProgramButton_Click);
             // 
             // removeWebsiteButton
             // 
+            this.removeWebsiteButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.removeWebsiteButton.FlatAppearance.BorderSize = 0;
+            this.removeWebsiteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeWebsiteButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.removeWebsiteButton.ForeColor = System.Drawing.Color.White;
             this.removeWebsiteButton.Location = new System.Drawing.Point(590, 300);
             this.removeWebsiteButton.Name = "removeWebsiteButton";
             this.removeWebsiteButton.Size = new System.Drawing.Size(156, 36);
             this.removeWebsiteButton.TabIndex = 14;
-            this.removeWebsiteButton.Text = "Remove website";
-            this.removeWebsiteButton.UseVisualStyleBackColor = true;
+            this.removeWebsiteButton.Text = "Remove Website";
+            this.removeWebsiteButton.UseVisualStyleBackColor = false;
             this.removeWebsiteButton.Click += new System.EventHandler(this.removeWebsiteButton_Click);
             // 
             // configureScheduleButton
             // 
+            this.configureScheduleButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.configureScheduleButton.FlatAppearance.BorderSize = 0;
+            this.configureScheduleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.configureScheduleButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.configureScheduleButton.Location = new System.Drawing.Point(30, 232);
+            this.configureScheduleButton.ForeColor = System.Drawing.Color.White;
+            this.configureScheduleButton.Location = new System.Drawing.Point(30, 220);
             this.configureScheduleButton.Name = "configureScheduleButton";
-            this.configureScheduleButton.Size = new System.Drawing.Size(141, 48);
+            this.configureScheduleButton.Size = new System.Drawing.Size(141, 40);
             this.configureScheduleButton.TabIndex = 15;
             this.configureScheduleButton.Text = "Schedule...";
-            this.configureScheduleButton.UseVisualStyleBackColor = true;
+            this.configureScheduleButton.UseVisualStyleBackColor = false;
             this.configureScheduleButton.Click += new System.EventHandler(this.configureScheduleButton_Click);
             // 
             // useScheduleCheckBox
@@ -247,14 +291,18 @@ namespace TASKYR
             // 
             // saveSettingsButton
             // 
-            this.saveSettingsButton.Hide(); // No longer needed, we autosave user settings now...
+            this.saveSettingsButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.saveSettingsButton.FlatAppearance.BorderSize = 0;
+            this.saveSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveSettingsButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveSettingsButton.Location = new System.Drawing.Point(30, 285);
+            this.saveSettingsButton.ForeColor = System.Drawing.Color.White;
+            this.saveSettingsButton.Location = new System.Drawing.Point(30, 274);
             this.saveSettingsButton.Name = "saveSettingsButton";
             this.saveSettingsButton.Size = new System.Drawing.Size(143, 42);
             this.saveSettingsButton.TabIndex = 17;
             this.saveSettingsButton.Text = "Save Settings!";
-            this.saveSettingsButton.UseVisualStyleBackColor = true;
+            this.saveSettingsButton.UseVisualStyleBackColor = false;
+            this.saveSettingsButton.Visible = false;
             this.saveSettingsButton.Click += new System.EventHandler(this.saveSettingsButton_Click);
             // 
             // addToStartupCheckBox
@@ -281,11 +329,28 @@ namespace TASKYR
             this.minimizeToTrayCheckBox.UseVisualStyleBackColor = true;
             this.minimizeToTrayCheckBox.CheckedChanged += new System.EventHandler(this.minimizeToTrayCheckBox_CheckedChanged);
             // 
+            // coffeeBreakButton
+            // 
+            this.coffeeBreakButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.coffeeBreakButton.FlatAppearance.BorderSize = 0;
+            this.coffeeBreakButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.coffeeBreakButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.coffeeBreakButton.ForeColor = System.Drawing.Color.White;
+            this.coffeeBreakButton.Location = new System.Drawing.Point(30, 388);
+            this.coffeeBreakButton.Name = "coffeeBreakButton";
+            this.coffeeBreakButton.Size = new System.Drawing.Size(175, 50);
+            this.coffeeBreakButton.TabIndex = 21;
+            this.coffeeBreakButton.Text = "Coffee Break!";
+            this.coffeeBreakButton.UseVisualStyleBackColor = false;
+            this.coffeeBreakButton.Click += new System.EventHandler(this.coffeeBreakButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.coffeeBreakButton);
             this.Controls.Add(this.minimizeToTrayCheckBox);
             this.Controls.Add(this.addToStartupCheckBox);
             this.Controls.Add(this.saveSettingsButton);
@@ -305,6 +370,7 @@ namespace TASKYR
             this.Controls.Add(this.defaultBrowserLabel);
             this.Controls.Add(this.browserComboBox);
             this.Controls.Add(this.blockButton);
+            this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MainForm";
             this.Text = "TASKYR";
@@ -316,6 +382,29 @@ namespace TASKYR
         }
 
         #endregion
+
+        private void browserComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if(e.Index < 0) return;
+
+            // Set default background and text colors
+            e.DrawBackground();
+            Brush textBrush = Brushes.White;
+            Color backgroundColor = Color.FromArgb(60, 60, 60);
+
+            // Highlight selected item
+            if((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            {
+                backgroundColor = Color.FromArgb(80, 80, 80);
+            }
+
+            // Fill background (no border)
+            e.Graphics.FillRectangle(new SolidBrush(backgroundColor), e.Bounds);
+            string itemText = ((ComboBox)sender).Items[e.Index].ToString();
+            e.Graphics.DrawString(itemText, e.Font, textBrush, e.Bounds, StringFormat.GenericDefault);
+
+            e.DrawFocusRectangle();
+        }
 
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
@@ -339,6 +428,7 @@ namespace TASKYR
         private System.Windows.Forms.CheckBox useScheduleCheckBox;
         private System.Windows.Forms.Button saveSettingsButton;
         private System.Windows.Forms.CheckBox minimizeToTrayCheckBox;
+        private System.Windows.Forms.Button coffeeBreakButton;
     }
 }
 

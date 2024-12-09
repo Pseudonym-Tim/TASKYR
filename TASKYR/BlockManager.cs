@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace TASKYR
 {
@@ -15,6 +16,12 @@ namespace TASKYR
         public Dictionary<DayOfWeek, (TimeSpan, TimeSpan)?> Schedule { get; set; }
         public string DefaultBrowser { get; set; } = "Chrome";
 
+        public DateTime LastCoffeeBreakTime { get; set; } = DateTime.MinValue;
+        public TimeSpan CoffeeBreakDuration { get; set; } = TimeSpan.FromMinutes(15);  // 15 minutes break duration
+        public TimeSpan CoffeeBreakCooldown { get; set; } = TimeSpan.FromHours(2);  // 2 hours cooldown period
+
+        private HashSet<string> runningBlockedProgramsAtStart = new HashSet<string>();
+
         public BlockManager(MainForm form)
         {
             Schedule = new Dictionary<DayOfWeek, (TimeSpan, TimeSpan)?>();
@@ -24,6 +31,65 @@ namespace TASKYR
         public void StartBlocking()
         {
             InitializeBlockSettings();
+
+            runningBlockedProgramsAtStart.Clear();
+
+            foreach(Process process in Process.GetProcesses())
+            {
+                if(BlockedPrograms.Contains(process.ProcessName.ToLower()))
+                {
+                    runningBlockedProgramsAtStart.Add(process.ProcessName.ToLower());
+                }
+            }
+        }
+
+        public bool StartCoffeeBreak()
+        {
+            if((DateTime.Now - LastCoffeeBreakTime >= CoffeeBreakCooldown) && mainForm.isBlockingEnabled)
+            {
+                // Unlock programs/websites temporarily...
+                UnblockPrograms();
+                UnblockWebsites();
+
+                // Start the coffee break timer...
+                LastCoffeeBreakTime = DateTime.Now;
+                mainForm.StartCoffeeBreakTimer();
+                return true;
+            }
+            else
+            {
+                if(!mainForm.IsInCoffeeBreak)
+                {
+                    MessageBox.Show("You must wait until the 2 hour cooldown period is over!");
+                }
+            }
+
+            return false;
+        }
+
+        public void NotifyNewlyBlockedPrograms()
+        {
+            HashSet<string> currentRunningProcesses = new HashSet<string>(Process.GetProcesses().Select(p => p.ProcessName.ToLower()));
+
+            foreach(string program in BlockedPrograms)
+            {
+                if(currentRunningProcesses.Contains(program.ToLower()) && !runningBlockedProgramsAtStart.Contains(program.ToLower()))
+                {
+                    // Show notification...
+                    NotifyUser(program);
+
+                    // Prevent repeated notifications...
+                    runningBlockedProgramsAtStart.Add(program.ToLower());
+                }
+            }
+        }
+
+        private void NotifyUser(string programName)
+        {
+            mainForm.Invoke((MethodInvoker)(() =>
+            {
+                MessageBox.Show($"{programName} is blocked during work mode, sorry!", "Blocked Program Detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }));
         }
 
         private void InitializeBlockSettings()
@@ -174,12 +240,12 @@ namespace TASKYR
 
         public void BlockWebsites()
         {
-            ModifyHostsFile(addEntries: true);
+            ModifyHostsFile(true);
         }
 
         public void UnblockWebsites()
         {
-            ModifyHostsFile(addEntries: false);
+            ModifyHostsFile(false);
         }
 
         private void ModifyHostsFile(bool addEntries)

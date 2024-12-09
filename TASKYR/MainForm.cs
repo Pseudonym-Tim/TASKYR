@@ -28,10 +28,15 @@ namespace TASKYR
         private DateTime lastIdleStartTime;
         private const int WM_CLOSE = 0x0010;
 
+        private Timer coffeeBreakTimer;
+        public bool IsInCoffeeBreak { get; private set; } = false;
+        private TimeSpan totalWorkTimeWithoutCoffeeBreak = TimeSpan.Zero;
+
         public MainForm()
         {
             blockingManager = new BlockManager(this);
             InitializeComponent();
+            InitializeCoffeeBreakTimer();
             LoadSettings();
             InitializeBrowserComboBox();
             InitializeStatusClearTimer();
@@ -40,7 +45,51 @@ namespace TASKYR
             ProcessProtector.UnprotectProcess();
 
             InputActivityMonitor.UserActivityDetected += OnUserActivityDetected;
+            SystemEvents.SessionEnding += OnSessionEnding;
             InputActivityMonitor.Start();
+        }
+
+        private void OnSessionEnding(object sender, SessionEndingEventArgs e)
+        {
+            StopBlock(true);
+        }
+
+        private void InitializeCoffeeBreakTimer()
+        {
+            coffeeBreakTimer = new Timer();
+            coffeeBreakTimer.Interval = 16;
+            coffeeBreakTimer.Tick += CoffeeBreakTimer_Tick;
+        }
+
+        public void StartCoffeeBreakTimer()
+        {
+            IsInCoffeeBreak = true;
+            coffeeBreakTimer.Start();
+        }
+
+        private void CoffeeBreakTimer_Tick(object sender, EventArgs e)
+        {
+            if(IsInCoffeeBreak)
+            {
+                // Update the status text to reflect Coffee Break...
+                statusText.Text = "You are on a coffee break! Time left: " + (blockingManager.CoffeeBreakDuration - (DateTime.Now - blockingManager.LastCoffeeBreakTime)).ToString(@"mm\:ss");
+
+                // Check if the coffee break time is over...
+                if(DateTime.Now - blockingManager.LastCoffeeBreakTime >= blockingManager.CoffeeBreakDuration)
+                {
+                    EndCoffeeBreak();
+                }
+            }
+        }
+
+        private void EndCoffeeBreak()
+        {
+            coffeeBreakTimer.Stop();
+            IsInCoffeeBreak = false;
+            blockingManager.BlockPrograms();
+            blockingManager.BlockWebsites();
+            totalWorkTimeWithoutCoffeeBreak += (DateTime.Now - blockingManager.LastCoffeeBreakTime); // Track the work time that is not part of the coffee break...
+            coffeeBreakButton.Text = "Coffee Break!";
         }
 
         private void InitializeIdleTimer()
@@ -60,7 +109,7 @@ namespace TASKYR
 
         private void IdleTimer_Tick(object sender, EventArgs e)
         {
-            if((DateTime.Now - lastActivityTime).TotalSeconds >= idleThresholdSeconds && isBlockingEnabled)
+            if((DateTime.Now - lastActivityTime).TotalSeconds >= idleThresholdSeconds && isBlockingEnabled && !IsInCoffeeBreak)
             {
                 if(lastIdleStartTime == DateTime.MinValue) // Mark the start of the idle period
                 {
@@ -70,7 +119,7 @@ namespace TASKYR
                 TimeSpan idleDuration = DateTime.Now - lastActivityTime;
                 statusText.Text = $"You have been idle for {Math.Floor(idleDuration.TotalSeconds)} seconds";
             }
-            else if((DateTime.Now - lastActivityTime).TotalSeconds < idleThresholdSeconds && isBlockingEnabled)
+            else if((DateTime.Now - lastActivityTime).TotalSeconds < idleThresholdSeconds && isBlockingEnabled && !IsInCoffeeBreak)
             {
                 if(lastIdleStartTime != DateTime.MinValue) // If was idle, now active
                 {
@@ -116,7 +165,7 @@ namespace TASKYR
 
         private void SaveSettings()
         {
-            var settings = new Settings
+            Settings settings = new Settings
             {
                 Schedule = blockingManager.Schedule,
                 DefaultBrowser = blockingManager.DefaultBrowser,
@@ -128,7 +177,7 @@ namespace TASKYR
                 LastWorkSessionDuration = blockingManager.LastWorkSessionDuration
             };
 
-            var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText(SettingsFilePath, json);
         }
 
@@ -165,6 +214,7 @@ namespace TASKYR
                     {
                         blockingManager.BlockPrograms();
                         blockingManager.BlockWebsites();
+                        blockingManager.NotifyNewlyBlockedPrograms();
                     }
                     else
                     {
@@ -173,8 +223,11 @@ namespace TASKYR
                     }
 
                     // Calculate total work time minus idle time
-                    TimeSpan elapsedTime = DateTime.Now - workStartTime - totalIdleTime;
-                    statusText.Text = $"You've been working for {elapsedTime.Hours} hours, {elapsedTime.Minutes} minutes, and {elapsedTime.Seconds} seconds";
+                    if(!IsInCoffeeBreak)
+                    {
+                        TimeSpan elapsedTime = DateTime.Now - workStartTime - totalIdleTime;
+                        statusText.Text = $"You've been working for {elapsedTime.Hours} hours, {elapsedTime.Minutes} minutes, and {elapsedTime.Seconds} seconds";
+                    }
                 }
                 else
                 {
@@ -287,6 +340,8 @@ namespace TASKYR
         {
             bool enabled = !isBlockingEnabled;
 
+            coffeeBreakButton.Enabled = isBlockingEnabled;
+
             addProgramButton.Enabled = enabled;
             removeProgramButton.Enabled = enabled;
             addWebsiteButton.Enabled = enabled;
@@ -353,6 +408,7 @@ namespace TASKYR
                     using(var form = new CloseConfirmationForm())
                     {
                         form.ShowDialog();
+
                         if(!form.IsConfirmed)
                         {
                             return;
@@ -370,6 +426,8 @@ namespace TASKYR
                 // Save the last work session duration
                 TimeSpan lastSessionDuration = DateTime.Now - workStartTime;
                 blockingManager.LastWorkSessionDuration = lastSessionDuration;
+
+                EndCoffeeBreak();
 
                 Debug.WriteLine("Stopping work. Saving settings...");
                 SaveSettings(); // Ensure settings are saved when stopping work
@@ -389,12 +447,14 @@ namespace TASKYR
             if(m.Msg == WM_CLOSE)
             {
                 var result = MessageBox.Show("Are you sure you want to close the application?", "Confirm Close", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
                 if(result == DialogResult.No)
                 {
                     // If the user clicks 'No', cancel the close operation
                     return;
                 }
             }
+
             base.WndProc(ref m);
         }
 
@@ -540,6 +600,7 @@ namespace TASKYR
         private void addToStartupCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             addToStartup = addToStartupCheckBox.Checked;
+
             if(addToStartup)
             {
                 AddToStartup();
@@ -554,6 +615,19 @@ namespace TASKYR
         {
             minimizeToTray = minimizeToTrayCheckBox.Checked;
             SaveSettings();
+        }
+
+        private void coffeeBreakButton_Click(object sender, EventArgs e)
+        {
+            if(blockingManager.StartCoffeeBreak())
+            {
+                coffeeBreakButton.Text = "End Coffee Break!";
+                MessageBox.Show("You are now on a coffee break for 15 minutes!");
+            }
+            else
+            {
+                EndCoffeeBreak();
+            }
         }
     }
 }
