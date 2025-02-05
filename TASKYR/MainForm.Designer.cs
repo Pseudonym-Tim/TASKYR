@@ -57,6 +57,7 @@ namespace TASKYR
             this.addToStartupCheckBox = new System.Windows.Forms.CheckBox();
             this.minimizeToTrayCheckBox = new System.Windows.Forms.CheckBox();
             this.coffeeBreakButton = new System.Windows.Forms.Button();
+            this.taskBoardButton = new System.Windows.Forms.Button();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,7 +134,7 @@ namespace TASKYR
             this.addProgramButton.Name = "addProgramButton";
             this.addProgramButton.Size = new System.Drawing.Size(156, 36);
             this.addProgramButton.TabIndex = 3;
-            this.addProgramButton.Text = "Add Program...";
+            this.addProgramButton.Text = "Add Program!";
             this.addProgramButton.UseVisualStyleBackColor = false;
             this.addProgramButton.Click += new System.EventHandler(this.addProgramButton_Click);
             // 
@@ -239,11 +240,11 @@ namespace TASKYR
             this.removeProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeProgramButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.removeProgramButton.ForeColor = System.Drawing.Color.White;
-            this.removeProgramButton.Location = new System.Drawing.Point(269, 274);
+            this.removeProgramButton.Location = new System.Drawing.Point(251, 274);
             this.removeProgramButton.Name = "removeProgramButton";
-            this.removeProgramButton.Size = new System.Drawing.Size(156, 36);
+            this.removeProgramButton.Size = new System.Drawing.Size(187, 36);
             this.removeProgramButton.TabIndex = 13;
-            this.removeProgramButton.Text = "Remove Program";
+            this.removeProgramButton.Text = "Remove Program...";
             this.removeProgramButton.UseVisualStyleBackColor = false;
             this.removeProgramButton.Click += new System.EventHandler(this.removeProgramButton_Click);
             // 
@@ -254,11 +255,11 @@ namespace TASKYR
             this.removeWebsiteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeWebsiteButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.removeWebsiteButton.ForeColor = System.Drawing.Color.White;
-            this.removeWebsiteButton.Location = new System.Drawing.Point(590, 300);
+            this.removeWebsiteButton.Location = new System.Drawing.Point(576, 300);
             this.removeWebsiteButton.Name = "removeWebsiteButton";
-            this.removeWebsiteButton.Size = new System.Drawing.Size(156, 36);
+            this.removeWebsiteButton.Size = new System.Drawing.Size(187, 36);
             this.removeWebsiteButton.TabIndex = 14;
-            this.removeWebsiteButton.Text = "Remove Website";
+            this.removeWebsiteButton.Text = "Remove Website...";
             this.removeWebsiteButton.UseVisualStyleBackColor = false;
             this.removeWebsiteButton.Click += new System.EventHandler(this.removeWebsiteButton_Click);
             // 
@@ -269,7 +270,7 @@ namespace TASKYR
             this.configureScheduleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.configureScheduleButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.configureScheduleButton.ForeColor = System.Drawing.Color.White;
-            this.configureScheduleButton.Location = new System.Drawing.Point(30, 220);
+            this.configureScheduleButton.Location = new System.Drawing.Point(30, 202);
             this.configureScheduleButton.Name = "configureScheduleButton";
             this.configureScheduleButton.Size = new System.Drawing.Size(141, 40);
             this.configureScheduleButton.TabIndex = 15;
@@ -296,7 +297,7 @@ namespace TASKYR
             this.saveSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveSettingsButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveSettingsButton.ForeColor = System.Drawing.Color.White;
-            this.saveSettingsButton.Location = new System.Drawing.Point(30, 274);
+            this.saveSettingsButton.Location = new System.Drawing.Point(28, 252);
             this.saveSettingsButton.Name = "saveSettingsButton";
             this.saveSettingsButton.Size = new System.Drawing.Size(143, 42);
             this.saveSettingsButton.TabIndex = 17;
@@ -344,12 +345,28 @@ namespace TASKYR
             this.coffeeBreakButton.UseVisualStyleBackColor = false;
             this.coffeeBreakButton.Click += new System.EventHandler(this.coffeeBreakButton_Click);
             // 
+            // taskBoardButton
+            // 
+            this.taskBoardButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.taskBoardButton.FlatAppearance.BorderSize = 0;
+            this.taskBoardButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.taskBoardButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.taskBoardButton.ForeColor = System.Drawing.Color.White;
+            this.taskBoardButton.Location = new System.Drawing.Point(576, 388);
+            this.taskBoardButton.Name = "taskBoardButton";
+            this.taskBoardButton.Size = new System.Drawing.Size(175, 50);
+            this.taskBoardButton.TabIndex = 22;
+            this.taskBoardButton.Text = "Taskboard...";
+            this.taskBoardButton.UseVisualStyleBackColor = false;
+            this.taskBoardButton.Click += new System.EventHandler(this.taskBoardButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.taskBoardButton);
             this.Controls.Add(this.coffeeBreakButton);
             this.Controls.Add(this.minimizeToTrayCheckBox);
             this.Controls.Add(this.addToStartupCheckBox);
@@ -429,6 +446,7 @@ namespace TASKYR
         private System.Windows.Forms.Button saveSettingsButton;
         private System.Windows.Forms.CheckBox minimizeToTrayCheckBox;
         private System.Windows.Forms.Button coffeeBreakButton;
+        private Button taskBoardButton;
     }
 }
 

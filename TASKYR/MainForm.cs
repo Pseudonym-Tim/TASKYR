@@ -629,5 +629,11 @@ namespace TASKYR
                 EndCoffeeBreak();
             }
         }
+
+        private void taskBoardButton_Click(object sender, EventArgs e)
+        {
+            TaskBoardForm taskBoardForm = new TaskBoardForm();
+            taskBoardForm.ShowDialog();
+        }
     }
 }

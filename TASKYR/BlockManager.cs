@@ -147,9 +147,14 @@ namespace TASKYR
             {
                 var (start, end) = Schedule[now.DayOfWeek].Value;
 
-                if(now.TimeOfDay >= start && now.TimeOfDay <= end)
+                // If the end time is earlier than the start time, we assume it's a 24-hour schedule...
+                if(end < start)
                 {
-                    return true;
+                    return now.TimeOfDay >= start || now.TimeOfDay <= end; // Covers the time wrapping around midnight...
+                }
+                else
+                {
+                    return now.TimeOfDay >= start && now.TimeOfDay <= end; // Normal schedule check...
                 }
             }
 
