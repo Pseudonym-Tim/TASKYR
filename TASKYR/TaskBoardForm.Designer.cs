@@ -30,6 +30,7 @@ namespace TASKYR
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskBoardForm));
             this.txtTaskName = new System.Windows.Forms.TextBox();
             this.rtbTaskDescription = new System.Windows.Forms.RichTextBox();
             this.btnCreateTask = new System.Windows.Forms.Button();
@@ -48,7 +49,7 @@ namespace TASKYR
             // 
             this.txtTaskName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.txtTaskName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtTaskName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTaskName.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTaskName.ForeColor = System.Drawing.Color.White;
             this.txtTaskName.Location = new System.Drawing.Point(117, 11);
             this.txtTaskName.Name = "txtTaskName";
@@ -59,7 +60,7 @@ namespace TASKYR
             // 
             this.rtbTaskDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.rtbTaskDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbTaskDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbTaskDescription.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbTaskDescription.ForeColor = System.Drawing.Color.White;
             this.rtbTaskDescription.Location = new System.Drawing.Point(117, 43);
             this.rtbTaskDescription.Name = "rtbTaskDescription";
@@ -111,7 +112,7 @@ namespace TASKYR
             this.clearTasksButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clearTasksButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.clearTasksButton.ForeColor = System.Drawing.Color.White;
-            this.clearTasksButton.Location = new System.Drawing.Point(629, 12);
+            this.clearTasksButton.Location = new System.Drawing.Point(629, 11);
             this.clearTasksButton.Name = "clearTasksButton";
             this.clearTasksButton.Size = new System.Drawing.Size(145, 45);
             this.clearTasksButton.TabIndex = 8;
@@ -122,10 +123,10 @@ namespace TASKYR
             // plannedHeaderText
             // 
             this.plannedHeaderText.BackColor = System.Drawing.Color.LightGray;
-            this.plannedHeaderText.Font = new System.Drawing.Font("Arial", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.plannedHeaderText.Location = new System.Drawing.Point(12, 120);
+            this.plannedHeaderText.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.plannedHeaderText.Location = new System.Drawing.Point(12, 121);
             this.plannedHeaderText.Name = "plannedHeaderText";
-            this.plannedHeaderText.Size = new System.Drawing.Size(250, 30);
+            this.plannedHeaderText.Size = new System.Drawing.Size(250, 29);
             this.plannedHeaderText.TabIndex = 0;
             this.plannedHeaderText.Text = "Planned";
             this.plannedHeaderText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -133,7 +134,7 @@ namespace TASKYR
             // inProgressHeaderText
             // 
             this.inProgressHeaderText.BackColor = System.Drawing.Color.LightBlue;
-            this.inProgressHeaderText.Font = new System.Drawing.Font("Arial", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.inProgressHeaderText.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.inProgressHeaderText.Location = new System.Drawing.Point(268, 120);
             this.inProgressHeaderText.Name = "inProgressHeaderText";
             this.inProgressHeaderText.Size = new System.Drawing.Size(250, 30);
@@ -144,7 +145,7 @@ namespace TASKYR
             // completedHeaderText
             // 
             this.completedHeaderText.BackColor = System.Drawing.Color.LightGreen;
-            this.completedHeaderText.Font = new System.Drawing.Font("Arial", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.completedHeaderText.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.completedHeaderText.Location = new System.Drawing.Point(524, 120);
             this.completedHeaderText.Name = "completedHeaderText";
             this.completedHeaderText.Size = new System.Drawing.Size(250, 30);
@@ -155,7 +156,7 @@ namespace TASKYR
             // panelPlanned
             // 
             this.panelPlanned.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.panelPlanned.Location = new System.Drawing.Point(13, 154);
+            this.panelPlanned.Location = new System.Drawing.Point(13, 150);
             this.panelPlanned.Name = "panelPlanned";
             this.panelPlanned.Size = new System.Drawing.Size(249, 295);
             this.panelPlanned.TabIndex = 9;
@@ -163,7 +164,7 @@ namespace TASKYR
             // panelInProgress
             // 
             this.panelInProgress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.panelInProgress.Location = new System.Drawing.Point(268, 154);
+            this.panelInProgress.Location = new System.Drawing.Point(268, 150);
             this.panelInProgress.Name = "panelInProgress";
             this.panelInProgress.Size = new System.Drawing.Size(249, 295);
             this.panelInProgress.TabIndex = 10;
@@ -171,7 +172,7 @@ namespace TASKYR
             // panelComplete
             // 
             this.panelComplete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.panelComplete.Location = new System.Drawing.Point(523, 154);
+            this.panelComplete.Location = new System.Drawing.Point(523, 150);
             this.panelComplete.Name = "panelComplete";
             this.panelComplete.Size = new System.Drawing.Size(249, 295);
             this.panelComplete.TabIndex = 11;
@@ -192,8 +193,11 @@ namespace TASKYR
             this.Controls.Add(this.btnCreateTask);
             this.Controls.Add(this.rtbTaskDescription);
             this.Controls.Add(this.txtTaskName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "TaskBoardForm";
-            this.Text = "Taskboard";
+            this.Text = "Taskboard!";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

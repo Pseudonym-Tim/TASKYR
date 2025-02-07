@@ -34,12 +34,12 @@ namespace TASKYR
             panel.DragEnter += CategoryPanel_DragEnter;
             panel.DragDrop += CategoryPanel_DragDrop;
 
-            // Enable scrolling for the panel
+            // Enable scrolling for the panel...
             panel.AutoScroll = true;
 
-            // Set FlowLayoutPanel properties
+            // Set FlowLayoutPanel properties...
             panel.FlowDirection = FlowDirection.TopDown;
-            panel.WrapContents = false;  // Prevents wrapping of tasks
+            panel.WrapContents = false;  // (Prevents wrapping of tasks...)
         }
 
         private void btnCreateTask_Click(object sender, EventArgs e)
@@ -57,29 +57,32 @@ namespace TASKYR
 
         private Panel CreateTaskPanel(string taskName, string taskDescription)
         {
-            // Create a new Panel to hold the task name and description
+            // Create a new Panel to hold the task name and description...
             Panel taskPanel = new Panel
             {
                 BorderStyle = BorderStyle.FixedSingle,
                 MaximumSize = new Size(215, 9999),
-                Padding = new Padding(10, 5, 10, 5), // Add padding to the left and right of the task
+                Padding = new Padding(10, 5, 10, 5), // Add padding to the left and right of the task...
                 Margin = new Padding(5),
                 BackColor = System.Drawing.Color.LightGray
             };
+
+            bool taskDescriptionIsEmpty = string.IsNullOrEmpty(taskDescription);
 
             // Create a Label for the task name with larger font and underlined text...
             Label taskNameLabel = new Label
             {
                 Text = taskName,
                 AutoSize = true,
-                Font = new Font("Arial", 12, FontStyle.Underline | FontStyle.Bold), // Larger font and underline
+                Font = new Font("Arial", 12, taskDescriptionIsEmpty ? FontStyle.Bold : (FontStyle.Underline | FontStyle.Bold)), 
                 ForeColor = System.Drawing.Color.Black,
-                Padding = new Padding(0, 5, 0, 5) // Padding for spacing between labels
+                Padding = new Padding(0, 5, 0, 5) // Padding for spacing between labels...
             };
 
             // Create a Label for the task description only if it's not empty...
             Label taskDescriptionLabel = null;
-            if(!string.IsNullOrEmpty(taskDescription))
+
+            if(!taskDescriptionIsEmpty)
             {
                 taskDescriptionLabel = new Label
                 {
@@ -91,29 +94,31 @@ namespace TASKYR
                 };
             }
 
-            // Add event handlers to propagate MouseDown event from labels to panel
+            // Add event handlers to propagate MouseDown event from labels to panel...
             taskNameLabel.MouseDown += (s, e) => TaskPanel_MouseDown(taskPanel, e);
+
             if(taskDescriptionLabel != null)
                 taskDescriptionLabel.MouseDown += (s, e) => TaskPanel_MouseDown(taskPanel, e);
 
-            // Add labels to the task panel
+            // Add labels to the task panel...
             taskPanel.Controls.Add(taskNameLabel);
+
             if(taskDescriptionLabel != null)
                 taskPanel.Controls.Add(taskDescriptionLabel);
 
-            // Position the labels manually, starting from the top of the panel
+            // Position the labels manually, starting from the top of the panel...
             int currentTop = taskNameLabel.Height + taskPanel.Padding.Top;
 
             if(taskDescriptionLabel != null)
             {
                 taskDescriptionLabel.Top = currentTop;
-                currentTop += taskDescriptionLabel.Height + 5; // Add some margin below the description
+                currentTop += taskDescriptionLabel.Height + 5; // Add some margin below the description...
             }
 
-            // Set the panel's height based on the labels' heights
+            // Set the panel's height based on the labels' heights...
             taskPanel.Height = currentTop + taskPanel.Padding.Bottom - 5;
 
-            // Assign event handlers for dragging
+            // Assign event handlers for dragging...
             taskPanel.MouseDown += TaskPanel_MouseDown;
             taskPanel.DragOver += TaskPanel_DragOver;
 
@@ -122,10 +127,10 @@ namespace TASKYR
 
         private void TaskPanel_MouseDown(object sender, MouseEventArgs e)
         {
-            // Begin the drag operation for a task when clicking anywhere in the task panel
+            // Begin the drag operation for a task when clicking anywhere in the task panel...
             Panel task = (Panel)sender;
 
-            // Ensure that the drag operation is initiated correctly
+            // Ensure that the drag operation is initiated correctly...
             if(e.Button == MouseButtons.Left)
             {
                 task.DoDragDrop(task, DragDropEffects.Move);
@@ -134,12 +139,12 @@ namespace TASKYR
 
         private void TaskPanel_DragOver(object sender, DragEventArgs e)
         {
-            e.Effect = DragDropEffects.Move; // Allow the drag to proceed
+            e.Effect = DragDropEffects.Move; // Allow the drag to proceed...
         }
 
         private void CategoryPanel_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = DragDropEffects.Move; // Indicate that the drop is allowed
+            e.Effect = DragDropEffects.Move; // Indicate that the drop is allowed...
         }
 
         private void CategoryPanel_DragDrop(object sender, DragEventArgs e)
@@ -177,7 +182,7 @@ namespace TASKYR
                 taskPanel.BackColor = Color.LightGreen;
             }
 
-            // Add the taskPanel to the FlowLayoutPanel
+            // Add the taskPanel to the FlowLayoutPanel...
             panel.Controls.Add(taskPanel);
             taskPanel.BringToFront();
         }
@@ -190,7 +195,7 @@ namespace TASKYR
                 InitializeCategoryPanel(panel, panel == panelPlanned ? "Planned" : panel == panelInProgress ? "In-Progress" : "Complete");
             }
 
-            File.Delete("tasks.json"); // Clear saved data
+            File.Delete("tasks.json"); // Clear saved data...
         }
 
         private void SaveTasks()

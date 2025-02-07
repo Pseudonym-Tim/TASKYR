@@ -147,15 +147,19 @@ namespace TASKYR
             {
                 var (start, end) = Schedule[now.DayOfWeek].Value;
 
-                // If the end time is earlier than the start time, we assume it's a 24-hour schedule...
+                // If start and end times are the same, treat it as a 24-hour block...
+                if(start == end)
+                {
+                    return true;
+                }
+
+                // If the end time is earlier than the start time, wrap around midnight...
                 if(end < start)
                 {
-                    return now.TimeOfDay >= start || now.TimeOfDay <= end; // Covers the time wrapping around midnight...
+                    return now.TimeOfDay >= start || now.TimeOfDay <= end;
                 }
-                else
-                {
-                    return now.TimeOfDay >= start && now.TimeOfDay <= end; // Normal schedule check...
-                }
+
+                return now.TimeOfDay >= start && now.TimeOfDay <= end;
             }
 
             return false;
@@ -304,6 +308,7 @@ namespace TASKYR
         private void CloseBrowser(string browserName)
         {
             var processes = Process.GetProcessesByName(browserName);
+
             foreach(var process in processes)
             {
                 try

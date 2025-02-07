@@ -58,6 +58,7 @@ namespace TASKYR
             this.minimizeToTrayCheckBox = new System.Windows.Forms.CheckBox();
             this.coffeeBreakButton = new System.Windows.Forms.Button();
             this.taskBoardButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,7 +117,7 @@ namespace TASKYR
             // 
             this.defaultBrowserLabel.AutoSize = true;
             this.defaultBrowserLabel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.defaultBrowserLabel.Location = new System.Drawing.Point(48, 82);
+            this.defaultBrowserLabel.Location = new System.Drawing.Point(46, 81);
             this.defaultBrowserLabel.Name = "defaultBrowserLabel";
             this.defaultBrowserLabel.Size = new System.Drawing.Size(125, 15);
             this.defaultBrowserLabel.TabIndex = 2;
@@ -130,7 +131,7 @@ namespace TASKYR
             this.addProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addProgramButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addProgramButton.ForeColor = System.Drawing.Color.White;
-            this.addProgramButton.Location = new System.Drawing.Point(269, 232);
+            this.addProgramButton.Location = new System.Drawing.Point(269, 216);
             this.addProgramButton.Name = "addProgramButton";
             this.addProgramButton.Size = new System.Drawing.Size(156, 36);
             this.addProgramButton.TabIndex = 3;
@@ -142,7 +143,7 @@ namespace TASKYR
             // 
             this.blockedProgramsLabel.AutoSize = true;
             this.blockedProgramsLabel.Font = new System.Drawing.Font("Arial", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.blockedProgramsLabel.Location = new System.Drawing.Point(265, 28);
+            this.blockedProgramsLabel.Location = new System.Drawing.Point(265, 18);
             this.blockedProgramsLabel.Name = "blockedProgramsLabel";
             this.blockedProgramsLabel.Size = new System.Drawing.Size(151, 19);
             this.blockedProgramsLabel.TabIndex = 4;
@@ -152,7 +153,7 @@ namespace TASKYR
             // 
             this.blockedWebsitesLabel.AutoSize = true;
             this.blockedWebsitesLabel.Font = new System.Drawing.Font("Arial", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.blockedWebsitesLabel.Location = new System.Drawing.Point(600, 28);
+            this.blockedWebsitesLabel.Location = new System.Drawing.Point(600, 18);
             this.blockedWebsitesLabel.Name = "blockedWebsitesLabel";
             this.blockedWebsitesLabel.Size = new System.Drawing.Size(146, 19);
             this.blockedWebsitesLabel.TabIndex = 6;
@@ -162,11 +163,11 @@ namespace TASKYR
             // 
             this.blockedProgramsListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.blockedProgramsListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.blockedProgramsListBox.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.blockedProgramsListBox.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.blockedProgramsListBox.ForeColor = System.Drawing.Color.White;
             this.blockedProgramsListBox.FormattingEnabled = true;
             this.blockedProgramsListBox.ItemHeight = 16;
-            this.blockedProgramsListBox.Location = new System.Drawing.Point(251, 53);
+            this.blockedProgramsListBox.Location = new System.Drawing.Point(251, 42);
             this.blockedProgramsListBox.Name = "blockedProgramsListBox";
             this.blockedProgramsListBox.Size = new System.Drawing.Size(187, 160);
             this.blockedProgramsListBox.TabIndex = 7;
@@ -175,11 +176,11 @@ namespace TASKYR
             // 
             this.blockedWebsitesListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.blockedWebsitesListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.blockedWebsitesListBox.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.blockedWebsitesListBox.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.blockedWebsitesListBox.ForeColor = System.Drawing.Color.White;
             this.blockedWebsitesListBox.FormattingEnabled = true;
             this.blockedWebsitesListBox.ItemHeight = 16;
-            this.blockedWebsitesListBox.Location = new System.Drawing.Point(576, 53);
+            this.blockedWebsitesListBox.Location = new System.Drawing.Point(576, 42);
             this.blockedWebsitesListBox.Name = "blockedWebsitesListBox";
             this.blockedWebsitesListBox.Size = new System.Drawing.Size(187, 160);
             this.blockedWebsitesListBox.TabIndex = 8;
@@ -204,7 +205,7 @@ namespace TASKYR
             this.addWebsiteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addWebsiteButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addWebsiteButton.ForeColor = System.Drawing.Color.White;
-            this.addWebsiteButton.Location = new System.Drawing.Point(590, 258);
+            this.addWebsiteButton.Location = new System.Drawing.Point(590, 263);
             this.addWebsiteButton.Name = "addWebsiteButton";
             this.addWebsiteButton.Size = new System.Drawing.Size(156, 36);
             this.addWebsiteButton.TabIndex = 10;
@@ -218,9 +219,9 @@ namespace TASKYR
             this.addWebsiteTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.addWebsiteTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addWebsiteTextBox.ForeColor = System.Drawing.Color.White;
-            this.addWebsiteTextBox.Location = new System.Drawing.Point(590, 225);
+            this.addWebsiteTextBox.Location = new System.Drawing.Point(576, 233);
             this.addWebsiteTextBox.Name = "addWebsiteTextBox";
-            this.addWebsiteTextBox.Size = new System.Drawing.Size(156, 19);
+            this.addWebsiteTextBox.Size = new System.Drawing.Size(187, 19);
             this.addWebsiteTextBox.TabIndex = 11;
             // 
             // optionsLabel
@@ -240,7 +241,7 @@ namespace TASKYR
             this.removeProgramButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeProgramButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.removeProgramButton.ForeColor = System.Drawing.Color.White;
-            this.removeProgramButton.Location = new System.Drawing.Point(251, 274);
+            this.removeProgramButton.Location = new System.Drawing.Point(251, 258);
             this.removeProgramButton.Name = "removeProgramButton";
             this.removeProgramButton.Size = new System.Drawing.Size(187, 36);
             this.removeProgramButton.TabIndex = 13;
@@ -255,7 +256,7 @@ namespace TASKYR
             this.removeWebsiteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeWebsiteButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.removeWebsiteButton.ForeColor = System.Drawing.Color.White;
-            this.removeWebsiteButton.Location = new System.Drawing.Point(576, 300);
+            this.removeWebsiteButton.Location = new System.Drawing.Point(576, 305);
             this.removeWebsiteButton.Name = "removeWebsiteButton";
             this.removeWebsiteButton.Size = new System.Drawing.Size(187, 36);
             this.removeWebsiteButton.TabIndex = 14;
@@ -360,12 +361,24 @@ namespace TASKYR
             this.taskBoardButton.UseVisualStyleBackColor = false;
             this.taskBoardButton.Click += new System.EventHandler(this.taskBoardButton_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(622, 214);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 15);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Website URL:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.taskBoardButton);
             this.Controls.Add(this.coffeeBreakButton);
             this.Controls.Add(this.minimizeToTrayCheckBox);
@@ -389,6 +402,7 @@ namespace TASKYR
             this.Controls.Add(this.blockButton);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "TASKYR";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -447,6 +461,7 @@ namespace TASKYR
         private System.Windows.Forms.CheckBox minimizeToTrayCheckBox;
         private System.Windows.Forms.Button coffeeBreakButton;
         private Button taskBoardButton;
+        private Label label1;
     }
 }
 

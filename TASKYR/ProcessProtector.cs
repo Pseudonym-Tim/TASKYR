@@ -55,6 +55,7 @@ public class ProcessProtector
 
         // Set the process information...
         int result = NtSetInformationProcess(hProcess, processInfoClass, ref isCritical, sizeof(int));
+
         if(result != 0)
         {
             throw new InvalidOperationException($"Failed to set process information. Error code: {result}");
