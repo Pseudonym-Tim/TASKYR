@@ -285,9 +285,9 @@ namespace TASKYR
             this.useScheduleCheckBox.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.useScheduleCheckBox.Location = new System.Drawing.Point(30, 127);
             this.useScheduleCheckBox.Name = "useScheduleCheckBox";
-            this.useScheduleCheckBox.Size = new System.Drawing.Size(104, 19);
+            this.useScheduleCheckBox.Size = new System.Drawing.Size(103, 19);
             this.useScheduleCheckBox.TabIndex = 16;
-            this.useScheduleCheckBox.Text = "Use Schedule";
+            this.useScheduleCheckBox.Text = "Use schedule";
             this.useScheduleCheckBox.UseVisualStyleBackColor = true;
             this.useScheduleCheckBox.CheckedChanged += new System.EventHandler(this.useScheduleCheckBox_CheckedChanged);
             // 
@@ -298,7 +298,7 @@ namespace TASKYR
             this.saveSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveSettingsButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveSettingsButton.ForeColor = System.Drawing.Color.White;
-            this.saveSettingsButton.Location = new System.Drawing.Point(28, 252);
+            this.saveSettingsButton.Location = new System.Drawing.Point(30, 252);
             this.saveSettingsButton.Name = "saveSettingsButton";
             this.saveSettingsButton.Size = new System.Drawing.Size(143, 42);
             this.saveSettingsButton.TabIndex = 17;
@@ -313,9 +313,9 @@ namespace TASKYR
             this.addToStartupCheckBox.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addToStartupCheckBox.Location = new System.Drawing.Point(30, 177);
             this.addToStartupCheckBox.Name = "addToStartupCheckBox";
-            this.addToStartupCheckBox.Size = new System.Drawing.Size(107, 19);
+            this.addToStartupCheckBox.Size = new System.Drawing.Size(106, 19);
             this.addToStartupCheckBox.TabIndex = 19;
-            this.addToStartupCheckBox.Text = "Add to Startup";
+            this.addToStartupCheckBox.Text = "Add to startup";
             this.addToStartupCheckBox.UseVisualStyleBackColor = true;
             this.addToStartupCheckBox.CheckedChanged += new System.EventHandler(this.addToStartupCheckBox_CheckedChanged);
             // 
@@ -325,9 +325,9 @@ namespace TASKYR
             this.minimizeToTrayCheckBox.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.minimizeToTrayCheckBox.Location = new System.Drawing.Point(30, 152);
             this.minimizeToTrayCheckBox.Name = "minimizeToTrayCheckBox";
-            this.minimizeToTrayCheckBox.Size = new System.Drawing.Size(117, 19);
+            this.minimizeToTrayCheckBox.Size = new System.Drawing.Size(115, 19);
             this.minimizeToTrayCheckBox.TabIndex = 20;
-            this.minimizeToTrayCheckBox.Text = "Minimize to Tray";
+            this.minimizeToTrayCheckBox.Text = "Minimize to tray";
             this.minimizeToTrayCheckBox.UseVisualStyleBackColor = true;
             this.minimizeToTrayCheckBox.CheckedChanged += new System.EventHandler(this.minimizeToTrayCheckBox_CheckedChanged);
             // 
