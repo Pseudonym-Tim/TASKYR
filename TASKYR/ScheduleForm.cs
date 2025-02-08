@@ -133,6 +133,12 @@ namespace TASKYR
             this.Close();
         }
 
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            dayPanel.Focus(); // Ensure the panel has focus
+        }
+
         private void AddControlsForDays()
         {
             // Create a Panel for day group boxes...
@@ -184,7 +190,7 @@ namespace TASKYR
                     Format = DateTimePickerFormat.Time,
                     ShowUpDown = true,
                     Location = new System.Drawing.Point(160 + 20, 30 - 5),  // Adjusted the position slightly
-                    Width = 120,  // Reduced width for better alignment
+                    Width = 120, // Reduced width for better alignment
                     Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold),
                 };
 
