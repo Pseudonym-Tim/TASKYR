@@ -146,8 +146,9 @@ namespace TASKYR
             {
                 Name = "DayPanel",
                 Location = new System.Drawing.Point(40, 20),
-                Size = new System.Drawing.Size(525, 350),
-                AutoScroll = true,
+                //Size = new System.Drawing.Size(525, 350),
+                AutoSize = true,
+                //AutoScroll = true,
                 BorderStyle = BorderStyle.None
             };
 
@@ -221,7 +222,7 @@ namespace TASKYR
             this.Controls.Add(dayPanel);
 
             // Optionally adjust form height if needed (since it's scrollable, this should work as is)
-            this.Height = 500;  // Adjust form height if needed, but the panel should handle scrolling
+            this.Height = 755;  // Adjust form height if needed, but the panel should handle scrolling
         }
 
         private void DayCheckbox_CheckedChanged(object sender, EventArgs e)

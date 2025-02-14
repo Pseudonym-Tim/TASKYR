@@ -65,7 +65,7 @@ namespace TASKYR
             // notifyIcon
             // 
             this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
-            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.notifyIcon.Text = "Click to show TASKYR!";
             this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
             // 

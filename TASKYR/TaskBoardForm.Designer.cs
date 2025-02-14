@@ -116,7 +116,7 @@ namespace TASKYR
             this.clearTasksButton.Name = "clearTasksButton";
             this.clearTasksButton.Size = new System.Drawing.Size(145, 45);
             this.clearTasksButton.TabIndex = 8;
-            this.clearTasksButton.Text = "Wipe All Tasks!";
+            this.clearTasksButton.Text = "Clear Tasks!";
             this.clearTasksButton.UseVisualStyleBackColor = false;
             this.clearTasksButton.Click += new System.EventHandler(this.clearTasksButton_Click);
             // 
