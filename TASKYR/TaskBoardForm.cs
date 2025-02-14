@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,9 +14,13 @@ namespace TASKYR
 {
     public partial class TaskBoardForm : Form
     {
+        private Timer countdownTimer;
+        private Dictionary<Panel, DateTime?> taskDeadlines = new Dictionary<Panel, DateTime?>();
+
         public TaskBoardForm()
         {
             InitializeComponent();
+            InitializeCountdownTimer();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -23,8 +28,72 @@ namespace TASKYR
             InitializeCategoryPanel(panelPlanned, "Planned");
             InitializeCategoryPanel(panelInProgress, "In-Progress");
             InitializeCategoryPanel(panelComplete, "Complete");
-
             LoadTasks(); // Load saved tasks on startup...
+        }
+
+        private void InitializeCountdownTimer()
+        {
+            countdownTimer = new Timer();
+            countdownTimer.Interval = 16;
+            countdownTimer.Tick += CountdownTimer_Tick;
+            countdownTimer.Start();
+        }
+
+        private void CountdownTimer_Tick(object sender, EventArgs e)
+        {
+            foreach(var entry in taskDeadlines.ToList())
+            {
+                Panel taskPanel = entry.Key;
+                DateTime? deadline = entry.Value;
+
+                // Skip updating tasks that are in the "Complete" category
+                if(panelComplete.Controls.Contains(taskPanel))
+                {
+                    continue;
+                }
+
+                if(deadline.HasValue)
+                {
+                    TimeSpan timeLeft = deadline.Value - DateTime.Now;
+                    Label timerLabel = taskPanel.Controls.OfType<Label>().FirstOrDefault(l => l.Tag?.ToString() == "timer");
+
+                    if(timeLeft.TotalSeconds > 0)
+                    {
+                        timerLabel.Text = $"Time Left: {timeLeft.Hours:D2}:{timeLeft.Minutes:D2}:{timeLeft.Seconds:D2}";
+                    }
+                    else
+                    {
+                        timerLabel.Text = "Expired!";
+                        HandleExpiredTask(taskPanel);
+                    }
+                }
+            }
+        }
+
+        private void HandleExpiredTask(Panel taskPanel)
+        {
+            // Ensure the task is not already in the Complete category...
+            if(panelComplete.Controls.Contains(taskPanel))
+            {
+                return; // Do nothing if it's already completed...
+            }
+
+            if(autoDeleteTasksCheckbox.Checked)
+            {
+                panelPlanned.Controls.Remove(taskPanel);
+                panelInProgress.Controls.Remove(taskPanel);
+                panelComplete.Controls.Remove(taskPanel);
+                taskDeadlines.Remove(taskPanel);
+            }
+            else
+            {
+                // Move back to Planned only if it was In-Progress...
+                if(panelInProgress.Controls.Contains(taskPanel))
+                {
+                    panelInProgress.Controls.Remove(taskPanel);
+                    panelPlanned.Controls.Add(taskPanel);
+                }
+            }
         }
 
         private void InitializeCategoryPanel(FlowLayoutPanel panel, string categoryName)
@@ -39,49 +108,49 @@ namespace TASKYR
 
             // Set FlowLayoutPanel properties...
             panel.FlowDirection = FlowDirection.TopDown;
-            panel.WrapContents = false;  // (Prevents wrapping of tasks...)
+            panel.WrapContents = false; // (Prevents wrapping of tasks...)
         }
 
         private void btnCreateTask_Click(object sender, EventArgs e)
         {
             string taskName = txtTaskName.Text;
             string taskDescription = rtbTaskDescription.Text;
+            DateTime? deadline = deadlineDateTimePicker.Value;
+            if(!useDeadlineCheckbox.Checked) { deadline = null; }
+            string category = "Planned"; // Default category...
 
             if(!string.IsNullOrEmpty(taskName))
             {
-                Panel newTask = CreateTaskPanel(taskName, taskDescription);
+                Panel newTask = CreateTaskPanel(taskName, taskDescription, deadline);
                 AddTaskToPanel(panelPlanned, newTask);
-                SaveTasks(); // Save after creating a new task...
+                SaveTasks();
             }
         }
 
-        private Panel CreateTaskPanel(string taskName, string taskDescription)
+        private Panel CreateTaskPanel(string taskName, string taskDescription, DateTime? deadline)
         {
-            // Create a new Panel to hold the task name and description...
             Panel taskPanel = new Panel
             {
                 BorderStyle = BorderStyle.FixedSingle,
                 MaximumSize = new Size(215, 9999),
-                Padding = new Padding(10, 5, 10, 5), // Add padding to the left and right of the task...
+                Padding = new Padding(10, 5, 10, 5),
                 Margin = new Padding(5),
-                BackColor = System.Drawing.Color.LightGray
+                BackColor = System.Drawing.Color.LightGray,
+                AutoSize = true
             };
 
             bool taskDescriptionIsEmpty = string.IsNullOrEmpty(taskDescription);
 
-            // Create a Label for the task name with larger font and underlined text...
             Label taskNameLabel = new Label
             {
                 Text = taskName,
                 AutoSize = true,
-                Font = new Font("Arial", 12, taskDescriptionIsEmpty ? FontStyle.Bold : (FontStyle.Underline | FontStyle.Bold)), 
+                Font = new Font("Arial", 12, taskDescriptionIsEmpty ? FontStyle.Bold : (FontStyle.Underline | FontStyle.Bold)),
                 ForeColor = System.Drawing.Color.Black,
-                Padding = new Padding(0, 5, 0, 5) // Padding for spacing between labels...
+                Padding = new Padding(0, 5, 0, 5)
             };
 
-            // Create a Label for the task description only if it's not empty...
             Label taskDescriptionLabel = null;
-
             if(!taskDescriptionIsEmpty)
             {
                 taskDescriptionLabel = new Label
@@ -94,35 +163,87 @@ namespace TASKYR
                 };
             }
 
-            // Add event handlers to propagate MouseDown event from labels to panel...
-            taskNameLabel.MouseDown += (s, e) => TaskPanel_MouseDown(taskPanel, e);
+            Label timerLabel = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Arial", 9, FontStyle.Italic | FontStyle.Underline),
+                ForeColor = Color.Red,
+                Tag = "timer",
+                TextAlign = ContentAlignment.BottomLeft,
+                Text = deadline.HasValue ? "Time Left: --" : "No Deadline!"
+            };
 
+            // Small delete button
+            Button deleteButton = new Button
+            {
+                Text = "Delete",
+                Size = new Size(50, 20),
+                BackColor = Color.Red,
+                ForeColor = Color.White,
+                Font = new Font("Arial", 8, FontStyle.Bold),
+                FlatStyle = FlatStyle.Flat
+            };
+            deleteButton.FlatAppearance.BorderSize = 0;
+            deleteButton.Click += (s, e) => DeleteTask(taskPanel);
+
+            // MouseDown events for dragging
+            taskNameLabel.MouseDown += (s, e) => TaskPanel_MouseDown(taskPanel, e);
             if(taskDescriptionLabel != null)
                 taskDescriptionLabel.MouseDown += (s, e) => TaskPanel_MouseDown(taskPanel, e);
 
-            // Add labels to the task panel...
             taskPanel.Controls.Add(taskNameLabel);
-
             if(taskDescriptionLabel != null)
                 taskPanel.Controls.Add(taskDescriptionLabel);
 
-            // Position the labels manually, starting from the top of the panel...
-            int currentTop = taskNameLabel.Height + taskPanel.Padding.Top;
+            int currentTop = taskNameLabel.Bottom + 5;
 
             if(taskDescriptionLabel != null)
             {
                 taskDescriptionLabel.Top = currentTop;
-                currentTop += taskDescriptionLabel.Height + 5; // Add some margin below the description...
+                currentTop = taskDescriptionLabel.Bottom + 5;
             }
 
-            // Set the panel's height based on the labels' heights...
-            taskPanel.Height = currentTop + taskPanel.Padding.Bottom - 5;
+            // Positioning the delete button
+            deleteButton.Top = currentTop;
+            deleteButton.Left = 5;
 
-            // Assign event handlers for dragging...
+            // Positioning the timer label to the right
+            timerLabel.Top = currentTop;
+            timerLabel.Left = taskPanel.Width - timerLabel.Width - 10;
+
+            taskPanel.Controls.Add(deleteButton);
+            taskPanel.Controls.Add(timerLabel);
+
+            taskPanel.Height = timerLabel.Bottom + taskPanel.Padding.Bottom;
+
             taskPanel.MouseDown += TaskPanel_MouseDown;
             taskPanel.DragOver += TaskPanel_DragOver;
 
+            if(deadline.HasValue)
+            {
+                taskDeadlines[taskPanel] = deadline;
+            }
+
             return taskPanel;
+        }
+
+        private void DeleteTask(Panel taskPanel)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this task?", "Delete Task...", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if(result == DialogResult.Yes)
+            {
+                // Remove from its parent container
+                taskPanel.Parent?.Controls.Remove(taskPanel);
+
+                // Remove from the taskDeadlines dictionary if it exists
+                if(taskDeadlines.ContainsKey(taskPanel))
+                {
+                    taskDeadlines.Remove(taskPanel);
+                }
+
+                SaveTasks(); // Update the saved tasks
+            }
         }
 
         private void TaskPanel_MouseDown(object sender, MouseEventArgs e)
@@ -168,7 +289,6 @@ namespace TASKYR
 
         private void AddTaskToPanel(FlowLayoutPanel panel, Panel taskPanel)
         {
-            // Determine the background color based on the category panel...
             if(panel == panelPlanned)
             {
                 taskPanel.BackColor = Color.LightGray;
@@ -180,9 +300,20 @@ namespace TASKYR
             else if(panel == panelComplete)
             {
                 taskPanel.BackColor = Color.LightGreen;
+
+                // Update the deadline label to say "Completed!"
+                Label timerLabel = taskPanel.Controls.OfType<Label>().FirstOrDefault(l => l.Tag?.ToString() == "timer");
+
+                if(timerLabel != null)
+                {
+                    timerLabel.Text = "Completed!";
+                    timerLabel.ForeColor = Color.Green;
+                }
+
+                // Remove task from tracking deadlines
+                taskDeadlines.Remove(taskPanel);
             }
 
-            // Add the taskPanel to the FlowLayoutPanel...
             panel.Controls.Add(taskPanel);
             taskPanel.BringToFront();
         }
@@ -199,6 +330,48 @@ namespace TASKYR
         }
 
         private void SaveTasks()
+        {
+            var tasks = panelPlanned.Controls.OfType<Panel>().Select(taskPanel => new TaskData
+            {
+                Name = taskPanel.Controls.OfType<Label>().First().Text,
+                Deadline = taskDeadlines.ContainsKey(taskPanel) ? taskDeadlines[taskPanel] : null,
+                Category = "Planned"
+            }).ToList();
+
+            tasks.AddRange(panelInProgress.Controls.OfType<Panel>().Select(taskPanel => new TaskData
+            {
+                Name = taskPanel.Controls.OfType<Label>().First().Text,
+                Deadline = taskDeadlines.ContainsKey(taskPanel) ? taskDeadlines[taskPanel] : null,
+                Category = "InProgress"
+            }));
+
+            tasks.AddRange(panelComplete.Controls.OfType<Panel>().Select(taskPanel => new TaskData
+            {
+                Name = taskPanel.Controls.OfType<Label>().First().Text,
+                Deadline = taskDeadlines.ContainsKey(taskPanel) ? taskDeadlines[taskPanel] : null,
+                Category = "Complete"
+            }));
+
+            File.WriteAllText("tasks.json", JsonConvert.SerializeObject(tasks));
+        }
+
+        private void LoadTasks()
+        {
+            if(File.Exists("tasks.json"))
+            {
+                var tasks = JsonConvert.DeserializeObject<List<TaskData>>(File.ReadAllText("tasks.json"));
+
+                foreach(var task in tasks)
+                {
+                    Panel taskPanel = CreateTaskPanel(task.Name, "", task.Deadline);
+                    FlowLayoutPanel targetPanel = task.Category == "InProgress" ? panelInProgress :
+                                                  task.Category == "Complete" ? panelComplete : panelPlanned;
+                    AddTaskToPanel(targetPanel, taskPanel);
+                }
+            }
+        }
+
+        /*private void SaveTasks()
         {
             List<TaskData> tasks = new List<TaskData>();
 
@@ -239,13 +412,13 @@ namespace TASKYR
 
                 foreach(TaskData task in tasks)
                 {
-                    Panel taskPanel = CreateTaskPanel(task.Name, task.Description);
+                    Panel taskPanel = CreateTaskPanel(task.Name, task.Description,);
                     FlowLayoutPanel targetPanel = task.Category == "Planned" ? panelPlanned : task.Category == "In-Progress" ? panelInProgress : panelComplete;
 
                     AddTaskToPanel(targetPanel, taskPanel);
                 }
             }
-        }
+        }*/
 
         private void clearTasksButton_Click(object sender, EventArgs e)
         {

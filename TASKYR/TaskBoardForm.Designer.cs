@@ -43,6 +43,9 @@ namespace TASKYR
             this.panelPlanned = new System.Windows.Forms.FlowLayoutPanel();
             this.panelInProgress = new System.Windows.Forms.FlowLayoutPanel();
             this.panelComplete = new System.Windows.Forms.FlowLayoutPanel();
+            this.autoDeleteTasksCheckbox = new System.Windows.Forms.CheckBox();
+            this.deadlineDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.useDeadlineCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtTaskName
@@ -64,7 +67,7 @@ namespace TASKYR
             this.rtbTaskDescription.ForeColor = System.Drawing.Color.White;
             this.rtbTaskDescription.Location = new System.Drawing.Point(117, 43);
             this.rtbTaskDescription.Name = "rtbTaskDescription";
-            this.rtbTaskDescription.Size = new System.Drawing.Size(284, 63);
+            this.rtbTaskDescription.Size = new System.Drawing.Size(284, 68);
             this.rtbTaskDescription.TabIndex = 4;
             this.rtbTaskDescription.Text = "";
             // 
@@ -77,7 +80,7 @@ namespace TASKYR
             this.btnCreateTask.ForeColor = System.Drawing.Color.White;
             this.btnCreateTask.Location = new System.Drawing.Point(417, 11);
             this.btnCreateTask.Name = "btnCreateTask";
-            this.btnCreateTask.Size = new System.Drawing.Size(145, 45);
+            this.btnCreateTask.Size = new System.Drawing.Size(172, 45);
             this.btnCreateTask.TabIndex = 5;
             this.btnCreateTask.Text = "Create Task!";
             this.btnCreateTask.UseVisualStyleBackColor = false;
@@ -112,9 +115,9 @@ namespace TASKYR
             this.clearTasksButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clearTasksButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.clearTasksButton.ForeColor = System.Drawing.Color.White;
-            this.clearTasksButton.Location = new System.Drawing.Point(629, 11);
+            this.clearTasksButton.Location = new System.Drawing.Point(648, 11);
             this.clearTasksButton.Name = "clearTasksButton";
-            this.clearTasksButton.Size = new System.Drawing.Size(145, 45);
+            this.clearTasksButton.Size = new System.Drawing.Size(124, 45);
             this.clearTasksButton.TabIndex = 8;
             this.clearTasksButton.Text = "Clear Tasks!";
             this.clearTasksButton.UseVisualStyleBackColor = false;
@@ -177,10 +180,52 @@ namespace TASKYR
             this.panelComplete.Size = new System.Drawing.Size(249, 295);
             this.panelComplete.TabIndex = 11;
             // 
+            // autoDeleteTasksCheckbox
+            // 
+            this.autoDeleteTasksCheckbox.AutoSize = true;
+            this.autoDeleteTasksCheckbox.Checked = true;
+            this.autoDeleteTasksCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoDeleteTasksCheckbox.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.autoDeleteTasksCheckbox.ForeColor = System.Drawing.Color.White;
+            this.autoDeleteTasksCheckbox.Location = new System.Drawing.Point(417, 62);
+            this.autoDeleteTasksCheckbox.Name = "autoDeleteTasksCheckbox";
+            this.autoDeleteTasksCheckbox.Size = new System.Drawing.Size(172, 19);
+            this.autoDeleteTasksCheckbox.TabIndex = 12;
+            this.autoDeleteTasksCheckbox.Text = "Auto-delete expired tasks";
+            this.autoDeleteTasksCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // deadlineDateTimePicker
+            // 
+            this.deadlineDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.deadlineDateTimePicker.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Bold);
+            this.deadlineDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.deadlineDateTimePicker.Location = new System.Drawing.Point(417, 87);
+            this.deadlineDateTimePicker.Name = "deadlineDateTimePicker";
+            this.deadlineDateTimePicker.Size = new System.Drawing.Size(172, 24);
+            this.deadlineDateTimePicker.TabIndex = 0;
+            // 
+            // useDeadlineCheckbox
+            // 
+            this.useDeadlineCheckbox.AutoSize = true;
+            this.useDeadlineCheckbox.Checked = true;
+            this.useDeadlineCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.useDeadlineCheckbox.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.useDeadlineCheckbox.ForeColor = System.Drawing.Color.White;
+            this.useDeadlineCheckbox.Location = new System.Drawing.Point(595, 92);
+            this.useDeadlineCheckbox.Name = "useDeadlineCheckbox";
+            this.useDeadlineCheckbox.Size = new System.Drawing.Size(99, 19);
+            this.useDeadlineCheckbox.TabIndex = 13;
+            this.useDeadlineCheckbox.Text = "Use deadline";
+            this.useDeadlineCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.useDeadlineCheckbox.UseVisualStyleBackColor = true;
+            // 
             // TaskBoardForm
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(784, 461);
+            this.Controls.Add(this.useDeadlineCheckbox);
+            this.Controls.Add(this.deadlineDateTimePicker);
+            this.Controls.Add(this.autoDeleteTasksCheckbox);
             this.Controls.Add(this.panelComplete);
             this.Controls.Add(this.panelInProgress);
             this.Controls.Add(this.panelPlanned);
@@ -193,6 +238,7 @@ namespace TASKYR
             this.Controls.Add(this.btnCreateTask);
             this.Controls.Add(this.rtbTaskDescription);
             this.Controls.Add(this.txtTaskName);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -218,5 +264,8 @@ namespace TASKYR
         private FlowLayoutPanel panelPlanned;
         private FlowLayoutPanel panelInProgress;
         private FlowLayoutPanel panelComplete;
+        private CheckBox autoDeleteTasksCheckbox;
+        private DateTimePicker deadlineDateTimePicker;
+        private CheckBox useDeadlineCheckbox;
     }
 }

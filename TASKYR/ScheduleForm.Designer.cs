@@ -51,7 +51,6 @@
             this.Name = "ScheduleForm";
             this.Text = "Configure Schedule...";
             this.ResumeLayout(false);
-
         }
     }
 }
