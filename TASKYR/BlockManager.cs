@@ -60,7 +60,7 @@ namespace TASKYR
             {
                 if(!mainForm.IsInCoffeeBreak)
                 {
-                    MessageBox.Show("You must wait until the 2 hour cooldown period is over!");
+                    MessageBox.Show("You must wait until the 2 hour cooldown period is over!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
 

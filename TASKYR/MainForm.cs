@@ -487,7 +487,7 @@ namespace TASKYR
                 }
                 else
                 {
-                    MessageBox.Show("Please select a process.");
+                    MessageBox.Show("Please select a process!", "Select Process...", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
         }
@@ -514,7 +514,7 @@ namespace TASKYR
             }
             else
             {
-                MessageBox.Show("Please enter a website URL!");
+                MessageBox.Show("Please enter a website URL!", "Add URL...", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -538,7 +538,7 @@ namespace TASKYR
             }
             else
             {
-                MessageBox.Show("Please select a program to remove!");
+                MessageBox.Show("Please select a program to remove!", "Remove Program..", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -552,7 +552,7 @@ namespace TASKYR
             }
             else
             {
-                MessageBox.Show("Please select a website to remove!");
+                MessageBox.Show("Please select a website to remove!", "Remove Website..", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -624,7 +624,7 @@ namespace TASKYR
             if(blockingManager.StartCoffeeBreak())
             {
                 coffeeBreakButton.Text = "End Coffee Break!";
-                MessageBox.Show("You are now on a coffee break for 15 minutes!");
+                MessageBox.Show("You are now on a coffee break for 15 minutes!", "Coffee Break..", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
