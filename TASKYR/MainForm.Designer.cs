@@ -456,7 +456,7 @@ namespace TASKYR
         private System.Windows.Forms.Button removeProgramButton;
         private System.Windows.Forms.Button removeWebsiteButton;
         private System.Windows.Forms.Button configureScheduleButton;
-        private System.Windows.Forms.CheckBox useScheduleCheckBox;
+        public System.Windows.Forms.CheckBox useScheduleCheckBox;
         private System.Windows.Forms.Button saveSettingsButton;
         private System.Windows.Forms.CheckBox minimizeToTrayCheckBox;
         private System.Windows.Forms.Button coffeeBreakButton;

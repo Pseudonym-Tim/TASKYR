@@ -51,7 +51,9 @@ namespace TASKYR
 
         private void OnSessionEnding(object sender, SessionEndingEventArgs e)
         {
+            useSchedule = false; // Prevent automatic restart...
             StopBlock(true);
+            SaveSettings(); // (Ensure settings persist after shutdown)
         }
 
         private void InitializeCoffeeBreakTimer()
@@ -271,7 +273,7 @@ namespace TASKYR
 
             if(isBlockingEnabled)
             {
-                using(var form = new CloseConfirmationForm())
+                using(var form = new CloseConfirmationForm(this))
                 {
                     form.ShowDialog();
                     if(!form.IsConfirmed)
@@ -399,13 +401,13 @@ namespace TASKYR
             }
         }
 
-        private void StopBlock(bool overridePrompt = false)
+        public void StopBlock(bool overridePrompt = false)
         {
             if(isBlockingEnabled)
             {
                 if(!overridePrompt)
                 {
-                    using(var form = new CloseConfirmationForm())
+                    using(var form = new CloseConfirmationForm(this))
                     {
                         form.ShowDialog();
 
